@@ -1,0 +1,16 @@
+extends /blocks/layouts/default
+
+block content
+	+wrapper
+		+container
+			+logo
+
+			+heading('h1')
+				| Привет!
+
+			+text
+				| Вce готово для использования, осталось только начать :)
+
+			+sticker(getData('stickers'))
+
+			+bitbucket-link

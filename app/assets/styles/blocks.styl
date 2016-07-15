@@ -1,0 +1,93 @@
+html
+body
+	padding 0
+	background #dadada
+	
+*
+	font-family avante
+	color blackColor
+
+.justify-align
+	text-align justify
+
+	&:after
+		content ''
+		text-align justify
+		width 100%
+		height 0
+		display inline-block
+
+.vertical-align-helper
+	display inline-block
+	height 100%
+	width 0
+	vertical-align middle
+.bitbucket-link
+	sprite($bitbucket)
+	display block
+	margin 0 auto
+	resize 0.5
+.container
+	border 1px dashed #333
+	padding 25px
+	border-radius 50px
+	text-align center
+	margin 25px auto
+	min-width 350px
+.heading
+	font-size inherit
+	font-weight inherit
+	color inherit
+.logo
+	margin 15px auto
+	
+	&__image
+		size(250px)
+.sticker
+	margin 30px auto
+	width 80%
+	display flex
+	justify-content space-between
+	+below(1240px)
+		text-align center
+
+	&__item
+		display inline-block
+		background #fff
+		padding 15px
+		width 25%
+		margin 0 auto
+		position relative
+		vertical-align top
+		+below(1240px)
+			width 90%
+			display block
+			margin 10px auto
+			
+		&:before
+			position absolute
+			sprite($paperclip)
+			content ''
+			top -14px
+			right 15px
+
+	&__title
+		font-size 20px
+		text-align center
+
+	&__text
+		text-align left
+		font-size 16px
+		
+	&__code
+		font-family monospace
+		padding 15px
+		border 1px dashed blackColor
+.text
+	font-weight inherit
+	font-size inherit
+	color inherit
+
+.wrapper
+	max-width 1200px
+	margin 0 auto

@@ -1,0 +1,40 @@
+.sticker
+	margin 30px auto
+	width 80%
+	display flex
+	justify-content space-between
+	+below(1240px)
+		text-align center
+
+	&__item
+		display inline-block
+		background #fff
+		padding 15px
+		width 25%
+		margin 0 auto
+		position relative
+		vertical-align top
+		+below(1240px)
+			width 90%
+			display block
+			margin 10px auto
+			
+		&:before
+			position absolute
+			sprite($paperclip)
+			content ''
+			top -14px
+			right 15px
+
+	&__title
+		font-size 20px
+		text-align center
+
+	&__text
+		text-align left
+		font-size 16px
+		
+	&__code
+		font-family monospace
+		padding 15px
+		border 1px dashed blackColor

@@ -1,0 +1,11 @@
+mixin sticker(items)
+	+b.sticker
+		each item in items
+			+e.item
+				+e.title
+					+heading('p')= item.title
+
+				+e.text
+					+text= item.text
+
+				+e('pre').code= item.code
