@@ -1,5 +1,5 @@
 {
-  "name": "simple-template",
+  "name": "catstruct",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,8 @@
     "page": "node scripts/create-page.js"
   },
   "author": "lamartire",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": "https://github.com/lamartire/catstruct",
   "dependencies": {
     "browserify": "^13.0.1",
     "cli-color": "^1.1.0",

@@ -4,8 +4,6 @@
 
 ## Таски и команды
 
-![Simple template](http://joxi.net/L21X1ZetL50BmX.png)
-
 Установка зависимостей:
 ```
 npm i
