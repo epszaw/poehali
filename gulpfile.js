@@ -6,12 +6,12 @@ const	gulp = 			require('gulp'),
 
 requireDir('scripts/task');
 
-gulp.task('build', ['sprite', 'js', 'css', 'jade', 'move-assets']);
+gulp.task('build', ['sprite', 'js', 'css', 'pug', 'move-assets']);
 
 gulp.task('watch', () => {
-	gulp.watch('app/blocks/**/*.jade', () => runSequence('jade', reload));
-	gulp.watch('app/data/*', () => runSequence('jade', reload));
-	gulp.watch('app/pages/*.jade', () => runSequence('jade', reload));
+	gulp.watch('app/blocks/**/*.pug', () => runSequence('pug', reload));
+	gulp.watch('app/data/*', () => runSequence('pug', reload));
+	gulp.watch('app/pages/*.pug', () => runSequence('pug', reload));
 	gulp.watch('app/blocks/**/*.styl', () => runSequence('css', reload));
 	gulp.watch('app/blocks/**/*.js', () => runSequence('js', reload));
 	gulp.watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], () => runSequence('move-assets', reload));

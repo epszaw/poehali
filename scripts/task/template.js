@@ -1,7 +1,7 @@
 const 	gulp = 			require('gulp'),
 		path = 			require('path'),
 		insert = 		require('gulp-insert'),
-		gulpJade = 		require('gulp-jade'),
+		gulpPug = 		require('gulp-pug'),
 		gulpPrettify = 	require('gulp-prettify'),
 		getData = 		require('jade-get-data');
 
@@ -9,10 +9,10 @@ const data = {
 	getData: getData('app/data')
 };
 
-gulp.task('jade', () => {
-	return gulp.src('app/pages/**/*.jade', {base: ''})
-		.pipe(insert.prepend('include /helpers/jade/import\n\r'))
-		.pipe(gulpJade({
+gulp.task('pug', () => {
+	return gulp.src('app/pages/**/*.pug', {base: ''})
+		.pipe(insert.prepend('include /helpers/pug/import\n\r'))
+		.pipe(gulpPug({
 			basedir: 'app',
 			pretty: true,
 			data
