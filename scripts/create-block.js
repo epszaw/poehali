@@ -25,13 +25,13 @@ function searchExistingBlocks(dir, argument) {
 function createBlock(blockName, targetDir) {
 	var newBlock = targetDir + blockName;
 
-	importNewBlock('app/helpers/jade/import.jade', blockName);
+	importNewBlock('app/helpers/pug/import.pug', blockName);
 
 	fs.mkdir(newBlock, (err) => {
 		if (err) {
 			throw err;
 		} else {
-			fs.writeFile(newBlock + '/' + blockName + '.jade', 'mixin ' + blockName + '()\r\n\t+b.' + blockName + '&attributes(attributes)\r\n\t\tblock', (err) => {
+			fs.writeFile(newBlock + '/' + blockName + '.pug', 'mixin ' + blockName + '()\r\n\t+b.' + blockName + '&attributes(attributes)\r\n\t\tblock', (err) => {
 				if (err) throw err;
 			});
 			fs.writeFile(newBlock + '/' + blockName + '.styl', '.' + blockName + '\r\n\tdisplay block', (err) => {

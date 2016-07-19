@@ -14,7 +14,7 @@ function searchExistingPage(dir, argument) {
 
 	fs.readdir(dir, function (err, items) {
 		items.forEach(function (item) {
-			if (item === argument + '.jade') {
+			if (item === argument + '.pug') {
 				throw new Error('Page ' + argument + ' already exist!');
 			}
 		});
@@ -28,7 +28,7 @@ function searchExistingPage(dir, argument) {
 function createPage(pageName, targetDir, sourceFileDir) {
 	var newPage = targetDir + pageName;
 
-	fs.writeFile(newPage + '.jade', 'include /blocks/' + pageName + '-page/' + pageName + '-page\r\n\r\n', (err) => {
+	fs.writeFile(newPage + '.pug', 'include /blocks/' + pageName + '-page/' + pageName + '-page\r\n\r\n', (err) => {
 		if (err) {
 			throw err;
 		} else {
@@ -44,7 +44,7 @@ function createPageSource(pageName, targetDir) {
 		if (err) {
 			throw err;
 		} else {
-			fs.writeFile(newPage + '/' + pageName + '-page.jade', 'extends /blocks/layout/default\r\n\r\nblock content\r\n\tbody#' + pageName + '\r\n\t\t', (err) => {
+			fs.writeFile(newPage + '/' + pageName + '-page.pug', 'extends /blocks/layouts/default\r\n\r\nblock content\r\n\tbody#' + pageName + '\r\n\t\t', (err) => {
 				if (err) throw err;
 			});
 		}
