@@ -1,0 +1,5 @@
+mixin @blockname(items)
+	+b('ul').@blockname
+		each item in items
+			+e('li').item
+				a(href= item.link)= item.text
