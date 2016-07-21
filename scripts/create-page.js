@@ -1,52 +1,41 @@
 const fs =	require('fs'),
 	  cli = require('cli-color');
 
-var arg = process.argv[2];
+var pageName = process.argv[2],
+	layout = process.argv[3] || 'default';
 
-if (arg == undefined) {
+if (pageName == undefined) {
 	throw new Error('Page name is empty!');
 } else {
-	searchExistingPage('app/pages/', arg);
+	searchExistingPage('app/pages/', pageName, layout);
 }
 
-function searchExistingPage(dir, argument) {
-	var sourceFileDir = 'app/blocks/';
-
+function searchExistingPage(dir, page, pageLayout) {
 	fs.readdir(dir, function (err, items) {
 		items.forEach(function (item) {
-			if (item === argument + '.pug') {
-				throw new Error('Page ' + argument + ' already exist!');
+			if (item === page + '.pug') {
+				throw new Error('Page ' + page + ' already exist!');
 			}
 		});
 
-		createPage(argument, dir, sourceFileDir);
-
-		console.log(cli.greenBright('Page ' + argument.toUpperCase() + ' was successfully created!'));
+		if (pageLayout) {
+			console.log(pageLayout)
+		}
+		
+		createPage(page, dir, pageLayout);
+		
+		console.log(cli.greenBright('Page ' + cli.magentaBright(page.toUpperCase()) + ' with ' + cli.magentaBright(pageLayout.toUpperCase()) + ' layout was successfully created!'));
 	});
 }
 
-function createPage(pageName, targetDir, sourceFileDir) {
+function createPage(pageName, targetDir, layout) {
 	var newPage = targetDir + pageName;
 
-	fs.writeFile(newPage + '.pug', 'include /blocks/' + pageName + '-page/' + pageName + '-page\r\n\r\n', (err) => {
+
+
+	fs.writeFile(newPage + '.pug', 'extends /blocks/layouts/' + layout + '\r\n\r\nblock content\r\n\tbody#' + pageName + '\r\n\t\t', (err) => {
 		if (err) {
 			throw err;
-		} else {
-			createPageSource(pageName, sourceFileDir);
-		}
-	});
-}
-
-function createPageSource(pageName, targetDir) {
-	var newPage = targetDir + pageName + '-page';
-
-	fs.mkdir(newPage, (err) => {
-		if (err) {
-			throw err;
-		} else {
-			fs.writeFile(newPage + '/' + pageName + '-page.pug', 'extends /blocks/layouts/default\r\n\r\nblock content\r\n\tbody#' + pageName + '\r\n\t\t', (err) => {
-				if (err) throw err;
-			});
 		}
 	});
 }

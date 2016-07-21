@@ -18,7 +18,7 @@ function searchExistingBlocks(dir, argument) {
 		});
 
 		createBlock(argument, dir);
-		console.log(cli.greenBright('Block ' + argument.toUpperCase() + ' was successfully created!'));
+		console.log(cli.greenBright('Block ' + cli.magentaBright(argument.toUpperCase()) + ' was successfully created!'));
 	});
 }
 

@@ -8,17 +8,13 @@ const 	gulp = 			require('gulp'),
 		cli = 			require('cli-color'),
 		fs = 			require('fs');
 
-var stylCommonPath = [
-	'app/blocks/**/*.styl'
-];
+var stylCommonPath = ['app/blocks/**/*.styl'];
 
 var customBrowsers = fs.readFileSync('.browsers', 'utf-8').split(' ');
 
 customBrowsers.map((e) => {
 	stylCommonPath.push('!app/blocks/**/*@' + e + '.styl');
 });
-
-console.log(stylCommonPath)
 
 gulp.task('css', ['styl'], () => {
 	return gulp.src('dist/assets/css/*')
