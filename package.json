@@ -10,7 +10,7 @@
     "zip": "gulp zip",
     "minify": "gulp minify && gulp zip",
     "block": "node core/create-block.js",
-	"layout-block": "node core/create-block-from-layout.js",
+	"lblock": "node core/create-block-from-layout.js",
     "page": "node core/create-page.js"
   },
   "author": "lamartire",

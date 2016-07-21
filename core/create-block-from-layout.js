@@ -14,7 +14,7 @@ function searchExistingBlocks(dir, blockname) {
 	fs.readdir(dir, function (err, items) {
 		items.forEach(function (item) {
 			if (item === blockname) {
-				throw new Error('Block already exist!');
+				throw new Error('Block ' + blockname.toUpperCase() + ' already exist!');
 			}
 		});
 	});
@@ -22,35 +22,41 @@ function searchExistingBlocks(dir, blockname) {
 	return true;
 }
 
-
-
-// createBlock(argument, dir);
-
-
 function searchTargetLayout(layoutsDir, layoutName) {
-	fs.readdir(layoutsDir, function (err, items) {
-		var searchStatus = false;
+	fs.readdir(layoutsDir + layoutName + '/', function (err, items) {
+		var searchStatus = {
+			markup: false,
+			style: false
+		};
 		
 		items.forEach(function (item) {
-			if (item === layoutName + '.btpl') {
-				blockLayoutParse(layoutsDir, layoutName, blockName);
+			if (item === layoutName + '.pug') {
+				searchStatus.markup = true;
+			} else if (item === layoutName + '.styl') {
+				searchStatus.style = true;
+			}
 
-				searchStatus = true;
+			if (searchStatus.markup === true && searchStatus.style === true) {
+				createBlock(layoutsDir, layoutName, blockName);
 			}
 		});
 
 		if (searchStatus === false) {
-			throw new Error('Target layout ' + layoutName + '.pug is not exist!');
+			throw new Error('Target layout ' + layoutName + '.pug or ' + layoutName + '.styl is not exist!');
 		}
 	});
 }
 
-function blockLayoutParse(layoutsDir, layoutName, blockName) {
-	var layoutContent = fs.readFileSync(layoutsDir + '/' + layoutName + '.btpl', 'utf8');
-	
+function createBlock(layoutsDir, layoutName, blockName) {
+	var templateMarkup = fs.readFileSync(layoutsDir + '/' + layoutName + '/' + layoutName + '.pug', 'utf8'),
+		templateStyle = fs.readFileSync(layoutsDir + '/' + layoutName + '/' + layoutName + '.styl', 'utf8');
+
+	var newBlockMarkup = parseTemplateFile(templateMarkup, blockName),
+		newBlockStyle = parseTemplateFile(templateStyle, blockName);
+
+
 	if (searchExistingBlocks('app/blocks', blockName)) {
-		var newBlockContent = layoutContent.replace(/@blockname/g, blockName),
-			newBlock = 'app/blocks/' + blockName;
+		var newBlock = 'app/blocks/' + blockName;
 
 		importNewBlock('app/helpers/pug/import.pug', blockName);
 
@@ -58,10 +64,10 @@ function blockLayoutParse(layoutsDir, layoutName, blockName) {
 			if (err) {
 				throw err;
 			} else {
-				fs.writeFile(newBlock + '/' + blockName + '.pug', newBlockContent, (err) => {
+				fs.writeFile(newBlock + '/' + blockName + '.pug', newBlockMarkup, (err) => {
 					if (err) throw err;
 				});
-				fs.writeFile(newBlock + '/' + blockName + '.styl', '.' + blockName + '\r\n\tdisplay block', (err) => {
+				fs.writeFile(newBlock + '/' + blockName + '.styl', '.' + newBlockStyle, (err) => {
 					if (err) throw err;
 				});
 
@@ -75,4 +81,8 @@ function importNewBlock(importFileName, blockName) {
 	fs.appendFile(importFileName, 'include /blocks/' + blockName + '/' + blockName + '\r\n', (err) => {
 		if (err) throw err;
 	});
+}
+
+function parseTemplateFile(templateFile, blockName) {
+	return templateFile.replace(/@blockname/g, blockName);
 }
