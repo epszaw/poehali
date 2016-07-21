@@ -7,7 +7,7 @@ const	gulp = 			require('gulp'),
 		browserSync = 	require('browser-sync').create(),
 		reload = 		browserSync.reload;
 
-requireDir('scripts/task');
+requireDir('core/task');
 
 gulp.task('build', ['sprite', 'js', 'css', 'pug', 'move-assets']);
 
