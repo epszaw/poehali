@@ -1,94 +1,13 @@
+@import 'normalize'
 @import 'nib'
 @import 'rupture'
-@import '../../helpers/styl/normalize.styl'
-@import '../../helpers/styl/mixins.styl'
-@import '../../helpers/styl/fonts.styl'
-@import '../../helpers/styl/variables.styl'
-@import '../../helpers/styl/sprite.styl'
-
-rupture.scale = 0 480px 768px 1024px 1200px
-rupture.scale-names = 'mobile' 'portrait' 'tablet' 'desktop' 'hd'
-
-html
-body
-	padding 0
-	background #dadada
-	
-*
-	font-family avante
-	color blackColor
-
-.vertical-align-helper
-	display inline-block
-	height 100%
-	width 0
-	vertical-align middle
-
-h1
-	font-size 22px
-
-p
-	font-size 16px
-
-.bitbucket-link
-	sprite($bitbucket)
-	display block
-	margin 0 auto
-	resize 0.5
-.container
-	border 1px dashed #333
-	padding 25px
-	border-radius 50px
-	text-align center
-	margin 25px auto
-	min-width 350px
-	max-width 1024px
-.logo
-	margin 15px auto
-	
-	&__image
-		size(250px)
-.sticker
-	margin 30px auto
-	width 80%
-	display flex
-	justify-content space-between
-	align-items flex-start
-
-	+below(1240px)
-		text-align center
-
-	&__item
-		display inline-block
-		background #fff
-		padding 15px
-		width 25%
-		margin 0 auto
-		position relative
-		vertical-align top
-		+below(1240px)
-			width 90%
-			display block
-			margin 10px auto
-			
-		&:before
-			position absolute
-			sprite($paperclip)
-			content ''
-			top -14px
-			right 15px
-
-	&__title
-		font-size 20px
-		text-align center
-		font-weight 600
-
-	&__text
-		text-align left
-		
-	&__code
-		font-family monospace
-		padding 15px
-		border 1px dashed blackColor
-.wrapper
-	margin 0 auto
+@import 'mixins'
+@import 'fonts'
+@import 'variables'
+@import 'sprite'
+@import '/../../blocks/basic/basic.styl'
+@import '/../../blocks/bitbucket-link/bitbucket-link.styl'
+@import '/../../blocks/container/container.styl'
+@import '/../../blocks/logo/logo.styl'
+@import '/../../blocks/sticker/sticker.styl'
+@import '/../../blocks/wrapper/wrapper.styl'

@@ -1,65 +1,135 @@
-const 	gulp = 			require('gulp'),
-		stylus = 		require('gulp-stylus'),
-		concat = 		require('gulp-concat'),
-		cssComb = 		require('gulp-csscomb'),
-		autoprefixer = 	require('gulp-autoprefixer'),
-		rupture = 		require('rupture'),
-		nib = 			require('nib'),
-		cli = 			require('cli-color'),
-		fs = 			require('fs');
+'use strict';
 
-var stylCommonPath = ['app/blocks/**/*.styl'];
+const 	gulp = 					require('gulp'),
+		concat =				require('gulp-concat'),
+		stylus = 				require('gulp-stylus'),
+		cssComb = 				require('gulp-csscomb'),
+		autoprefixer = 			require('gulp-autoprefixer'),
+		plumber = 				require('gulp-plumber'),
+		plumberErrorHandler = 	require('gulp-plumber-error-handler'),
+		rupture = 				require('rupture'),
+		nib = 					require('nib'),
+		cli = 					require('cli-color'),
+		fs = 					require('fs'),
+		path = 					require('path');
 
-var customBrowsers = fs.readFileSync('.browsers', 'utf-8').split(' ');
+
+
+let stylCommonPath = ['app/blocks/**/*.styl'];
+
+let customBrowsers = fs.readFileSync('.browsers', 'utf-8').split(' ');
+
+let stylFilesTree = {
+	common: []
+};
 
 customBrowsers.map((e) => {
-	stylCommonPath.push('!app/blocks/**/*@' + e + '.styl');
+	if (!stylFilesTree[e]) {
+		stylFilesTree[e] = [];
+	}
 });
 
-gulp.task('css', ['styl'], () => {
-	return gulp.src('dist/assets/css/*')
-		.pipe(autoprefixer({
-			browsers: ['last 3 versions']
-		}))
-		.pipe(cssComb())
-		.pipe(gulp.dest('dist/assets/css/'))
+customBrowsers.map((e) => {
+	stylCommonPath.push('!app/blocks/**/*.@' + e + 'styl');
 });
 
-gulp.task('styl', ['concat-styl', 'custom-browsers-styles'], () => {
-	return gulp.src('app/assets/styles/main.styl', {base: ''})
-		.pipe(stylus({use:[nib(), rupture()]}))
-		.pipe(gulp.dest('dist/assets/css'))
+function searchFiles(startPath, filter, callback){
+
+	if (!fs.existsSync(startPath)){
+		throw new Error(startPath + ' is not exist!');
+	}
+
+	let files = fs.readdirSync(startPath);
+	
+	for (let i = 0; i < files.length; i++) {
+		let filename = path.join(startPath, files[i]),
+			stat = fs.lstatSync(filename);
+		
+		if (stat.isDirectory()){
+			searchFiles(filename, filter, callback);
+		} else if (filter.test(filename)) {
+		 	callback(filename);
+		}
+	}
+}
+
+searchFiles('app/blocks', /\.styl$/, function(filename) {
+	customBrowsers.map((e) => {
+		let regExp = new RegExp(e);
+
+		if (regExp.test(filename) && /@/.test(filename)) {
+			stylFilesTree[e].push(filename);
+		} else {
+			if (stylFilesTree.common.indexOf(filename) === -1 && !/@/.test(filename)) {
+				stylFilesTree.common.push(filename);
+			}
+		}
+	})
 });
 
-gulp.task('concat-blocks', () => {
-	return gulp.src(stylCommonPath)
-		.pipe(concat('blocks.styl'))
-		.pipe(gulp.dest('app/assets/styles'), {overwrite: true})
-});
+function createMainFiles(stylesDir, stylesTree) {
+	let dependanciesList = '@import \'normalize\'\n' +
+							'@import \'nib\'\n' +
+							'@import \'rupture\'\n' +
+							'@import \'mixins\'\n' +
+							'@import \'fonts\'\n' +
+							'@import \'variables\'\n' +
+							'@import \'sprite\'\n';
 
-gulp.task('move-import-file', () => {
-	return gulp.src('app/helpers/styl/import.styl', {base: ''})
-		.pipe(gulp.dest('app/assets/styles'));
-});
+	for (let stylGroup in stylesTree) {
+		let styleFileName = stylesDir + 'main.styl',
+			content = '';
 
-gulp.task('concat-styl', ['move-import-file', 'concat-blocks'], () => {
-	return gulp.src(['app/assets/styles/import.styl', 'app/assets/styles/blocks.styl'])
-		.pipe(concat('main.styl'))
-		.pipe(gulp.dest('app/assets/styles'), {overwrite: true})
-});
+		if (stylesTree[stylGroup].length > 0) {
+			if (stylGroup !== 'common') {
+				styleFileName = stylesDir + 'main@' + stylGroup + '.styl';
 
-// Custom browsers compile
+				content = buildStylesDependancies(stylesTree[stylGroup]);
+			} else {
+				content = buildStylesDependancies(stylesTree[stylGroup]);
+			}
+		}
 
-gulp.task('custom-browsers-styles', () => {
-	if (customBrowsers && customBrowsers.length > 0) {
-		customBrowsers.map((browser) => {
-			return gulp.src('app/blocks/**/*@' + browser + '.styl')
-				.pipe(stylus({use:[nib(), rupture()]}))
-				.pipe(concat('main@' + browser + '.css'))
-				.pipe(cssComb())
-				.pipe(gulp.dest('dist/assets/css'), {overwrite: true})
-		});
-	} else {
-		console.log(cli.yellow('Custom browsers is not detected.'))
+		fs.writeFile(styleFileName, dependanciesList + content);
+	}
+}
+
+function buildStylesDependancies(filesList) {
+	let tree = '';
+
+	filesList.forEach((e) => {
+		tree += '@import \'/../../' + e.slice(e.indexOf('blocks')) + '\'\n';
+	});
+
+	return tree;
+}
+
+createMainFiles('app/assets/styles/', stylFilesTree);
+
+
+/*
+/
+/ Gulp task part
+/
+*/
+
+
+gulp.task('styl', () => {
+	for (let stylGroup in stylFilesTree) {
+		let stylesId = 'main';
+
+		if (stylGroup !== 'common') {
+			stylesId += '@' + stylGroup;
+		}
+
+		gulp.src('app/assets/styles/' + stylesId + '.styl', {base: ''})
+			.pipe(stylus({
+				use: [nib(), rupture()]
+			}))
+			.pipe(autoprefixer({
+				browsers: ['last 2 versions']
+			}))
+			.pipe(cssComb())
+			.pipe(gulp.dest('dist/assets/css'), {overwrite: true})
 	}
 });

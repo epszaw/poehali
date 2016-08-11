@@ -9,11 +9,11 @@ const	gulp = 			require('gulp'),
 
 requireDir('core/task');
 
-gulp.task('build', ['sprite', 'js', 'css', 'pug', 'move-assets']);
+gulp.task('build', ['sprite', 'js', 'styl', 'pug', 'move-assets']);
 
 gulp.task('watch', () => {
 	gulp.watch(['app/**/*.pug', 'app/data/*'] , (e) => runSequence('pug', reload));
-	gulp.watch('app/blocks/**/*.styl', () => runSequence('css', reload));
+	gulp.watch('app/blocks/**/*.styl', () => runSequence('styl', reload));
 	gulp.watch('app/blocks/**/*.js', () => runSequence('js', reload));
 	gulp.watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
