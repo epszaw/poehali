@@ -67,30 +67,69 @@ searchFiles('app/blocks', /\.styl$/, function(filename) {
 	})
 });
 
-gulp.task('styl', () => {
-	if (customBrowsers && customBrowsers.length > 0) {
-		customBrowsers.map((browser) => {
-			return gulp.src('app/blocks/**/*.@' + browser + 'styl')
-				.pipe(stylus({use:[nib(), rupture()]}))
-				.pipe(concat('main@' + browser + '.css'))
-				.pipe(autoprefixer({
-					browsers: ['last 3 versions']
-				}))
-				.pipe(cssComb())
-				.pipe(gulp.dest('dist/assets/css'), {overwrite: true})
-		});
-	} else {
-		console.log(cli.yellow('Custom browsers is not defined in .browsers - file. Continue STYLUS compilation.'))
-	}
+function createMainFiles(stylesDir, stylesTree) {
+	let dependanciesList = '@import \'normalize\'\n' +
+							'@import \'nib\'\n' +
+							'@import \'rupture\'\n' +
+							'@import \'mixins\'\n' +
+							'@import \'fonts\'\n' +
+							'@import \'variables\'\n' +
+							'@import \'sprite\'\n';
 
-	return gulp.src('app/assets/styles/main.styl', {base: ''})
-		.pipe(plumber({
-			errorHandler: plumberErrorHandler('Error was occurred during STYLUS compile')
-		}))
-		.pipe(stylus({use: [nib(), rupture()]}))
-		.pipe(autoprefixer({
-			browsers: ['last 3 versions']
-		}))
-		.pipe(cssComb())
-		.pipe(gulp.dest('dist/assets/css/'))
+	for (let stylGroup in stylesTree) {
+		let styleFileName = stylesDir + 'main.styl',
+			content = '';
+
+		if (stylesTree[stylGroup].length > 0) {
+			if (stylGroup !== 'common') {
+				styleFileName = stylesDir + 'main@' + stylGroup + '.styl';
+
+				content = buildStylesDependancies(stylesTree[stylGroup]);
+			} else {
+				content = buildStylesDependancies(stylesTree[stylGroup]);
+			}
+		}
+
+		fs.writeFile(styleFileName, dependanciesList + content);
+	}
+}
+
+function buildStylesDependancies(filesList) {
+	let tree = '';
+
+	filesList.forEach((e) => {
+		tree += '@import \'/../../' + e.slice(e.indexOf('blocks')) + '\'\n';
+	});
+
+	return tree;
+}
+
+createMainFiles('app/assets/styles/', stylFilesTree);
+
+
+/*
+/
+/ Gulp task part
+/
+*/
+
+
+gulp.task('styl', () => {
+	for (let stylGroup in stylFilesTree) {
+		let stylesId = 'main';
+
+		if (stylGroup !== 'common') {
+			stylesId += '@' + stylGroup;
+		}
+
+		gulp.src('app/assets/styles/' + stylesId + '.styl', {base: ''})
+			.pipe(stylus({
+				use: [nib(), rupture()]
+			}))
+			.pipe(autoprefixer({
+				browsers: ['last 2 versions']
+			}))
+			.pipe(cssComb())
+			.pipe(gulp.dest('dist/assets/css'), {overwrite: true})
+	}
 });
