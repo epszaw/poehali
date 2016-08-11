@@ -1,6 +1,6 @@
 {
   "name": "catstruct",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "zip": "gulp zip",
     "minify": "gulp minify && gulp zip",
     "block": "node core/create-block.js",
-	"lblock": "node core/create-block-from-layout.js",
+    "lblock": "node core/create-block-from-layout.js",
     "page": "node core/create-page.js"
   },
   "author": "lamartire",
@@ -18,6 +18,8 @@
   "repository": "https://github.com/lamartire/catstruct",
   "dependencies": {
     "browserify": "^13.0.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-plumber-error-handler": "^1.0.0",
     "nib": "^1.1.0",
     "rupture": "^0.6.1"
   },
