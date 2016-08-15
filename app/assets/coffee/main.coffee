@@ -1,2 +1,2 @@
 document.addEventListener 'DOMContentLoaded', () =>
-	console.log 'All done!'
+	console.log 'Coffeescript here!'

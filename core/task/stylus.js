@@ -14,8 +14,6 @@ const 	gulp = 					require('gulp'),
 		path = 					require('path'),
 		isExist =               require('file-exists');
 
-
-
 const dependencies = [
 	'normalize', 'nib', 'rupture', 'mixins', 'fonts', 'variables', 'sprite'
 ];
@@ -129,6 +127,9 @@ gulp.task('styl', () => {
 		}
 
 		gulp.src('app/assets/styles/' + stylesId + '.styl', {base: ''})
+			.pipe(plumber({
+				errorHandler: plumberErrorHandler('Error was occurred during STYLUS compile')
+			}))
 			.pipe(stylus({
 				use: [nib(), rupture()]
 			}))
