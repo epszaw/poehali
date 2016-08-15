@@ -11,11 +11,14 @@ const 	gulp = 					require('gulp'),
 		nib = 					require('nib'),
 		cli = 					require('cli-color'),
 		fs = 					require('fs'),
-		path = 					require('path');
+		path = 					require('path'),
+		isExist =               require('file-exists');
 
 
 
-let stylCommonPath = ['app/blocks/**/*.styl'];
+const dependencies = [
+	'normalize', 'nib', 'rupture', 'mixins', 'fonts', 'variables', 'sprite'
+];
 
 let customBrowsers = fs.readFileSync('.browsers', 'utf-8').split(' ');
 
@@ -27,10 +30,6 @@ customBrowsers.map((e) => {
 	if (!stylFilesTree[e]) {
 		stylFilesTree[e] = [];
 	}
-});
-
-customBrowsers.map((e) => {
-	stylCommonPath.push('!app/blocks/**/*.@' + e + 'styl');
 });
 
 function searchFiles(startPath, filter, callback){
@@ -53,28 +52,14 @@ function searchFiles(startPath, filter, callback){
 	}
 }
 
-searchFiles('app/blocks', /\.styl$/, function(filename) {
-	customBrowsers.map((e) => {
-		let regExp = new RegExp(e);
+function createMainFiles(stylesDir, stylesTree, dependencies) {
+	let dependenciesList = [];
 
-		if (regExp.test(filename) && /@/.test(filename)) {
-			stylFilesTree[e].push(filename);
-		} else {
-			if (stylFilesTree.common.indexOf(filename) === -1 && !/@/.test(filename)) {
-				stylFilesTree.common.push(filename);
-			}
-		}
-	})
-});
+	dependencies.forEach((e) => {
+		let dependecy = '@import \'' + e +  '\'';
 
-function createMainFiles(stylesDir, stylesTree) {
-	let dependanciesList = '@import \'normalize\'\n' +
-							'@import \'nib\'\n' +
-							'@import \'rupture\'\n' +
-							'@import \'mixins\'\n' +
-							'@import \'fonts\'\n' +
-							'@import \'variables\'\n' +
-							'@import \'sprite\'\n';
+		dependenciesList.push(dependecy);
+	});
 
 	for (let stylGroup in stylesTree) {
 		let styleFileName = stylesDir + 'main.styl',
@@ -90,7 +75,13 @@ function createMainFiles(stylesDir, stylesTree) {
 			}
 		}
 
-		fs.writeFile(styleFileName, dependanciesList + content);
+		if (isExist(styleFileName)) {
+			fs.unlink(styleFileName, (err) => {
+				if (!err) {
+					fs.writeFile(styleFileName, dependenciesList.join('\n') + '\n' + content);
+				}
+			});
+		}
 	}
 }
 
@@ -98,13 +89,11 @@ function buildStylesDependancies(filesList) {
 	let tree = '';
 
 	filesList.forEach((e) => {
-		tree += '@import \'/../../' + e.slice(e.indexOf('blocks')) + '\'\n';
+		tree += '@import \'../../' + e.slice(e.indexOf('blocks')) + '\'\n';
 	});
 
 	return tree;
 }
-
-createMainFiles('app/assets/styles/', stylFilesTree);
 
 
 /*
@@ -113,6 +102,23 @@ createMainFiles('app/assets/styles/', stylFilesTree);
 /
 */
 
+gulp.task('build-styl', () => {
+	searchFiles('app/blocks', /\.styl$/, function(filename) {
+		customBrowsers.map((e) => {
+			let regExp = new RegExp(e);
+
+			if (regExp.test(filename) && /@/.test(filename)) {
+				stylFilesTree[e].push(filename);
+			} else {
+				if (stylFilesTree.common.indexOf(filename) === -1 && !/@/.test(filename)) {
+					stylFilesTree.common.push(filename);
+				}
+			}
+		})
+	});
+
+	createMainFiles('app/assets/styles/', stylFilesTree, dependencies);
+});
 
 gulp.task('styl', () => {
 	for (let stylGroup in stylFilesTree) {

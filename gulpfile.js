@@ -9,11 +9,18 @@ const	gulp = 			require('gulp'),
 
 requireDir('core/task');
 
-gulp.task('build', ['sprite', 'js', 'styl', 'pug', 'move-assets']);
+gulp.task('build', ['build-styl', 'sprite', 'js', 'styl', 'pug', 'move-assets']);
 
 gulp.task('watch', () => {
 	gulp.watch(['app/**/*.pug', 'app/data/*'] , (e) => runSequence('pug', reload));
-	gulp.watch('app/blocks/**/*.styl', () => runSequence('styl', reload));
+	gulp.watch('app/blocks/**/*.styl', (e) => {
+		console.log(e.type)
+		if (e.type === 'added' || e.type === 'deleted') {
+			runSequence('styl', ['build-styl'], reload);
+		} else {
+			runSequence('styl', reload)
+		}
+	});
 	gulp.watch('app/blocks/**/*.js', () => runSequence('js', reload));
 	gulp.watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
@@ -22,6 +29,7 @@ gulp.task('watch', () => {
 
 		runSequence('move-assets', reload);
 	});
+
 	gulp.watch('app/assets/sprites/*', () => runSequence('sprite', reload));
 });
 
