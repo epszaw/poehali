@@ -18,7 +18,9 @@
   "repository": "https://github.com/lamartire/catstruct",
   "dependencies": {
     "browserify": "^13.0.1",
+    "coffeeify": "^2.0.1",
     "file-exists": "^2.0.0",
+    "gulp-coffee": "^2.3.2",
     "gulp-plumber": "^1.1.0",
     "gulp-plumber-error-handler": "^1.0.0",
     "nib": "^1.1.0",

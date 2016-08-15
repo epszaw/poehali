@@ -1,3 +1,5 @@
+'use strict';
+
 const	gulp = 			require('gulp'),
 		concat = 		require('gulp-concat'),
 		babel =			require('gulp-babel'),

@@ -9,12 +9,12 @@ const	gulp = 			require('gulp'),
 
 requireDir('core/task');
 
-gulp.task('build', ['build-styl', 'sprite', 'js', 'styl', 'pug', 'move-assets']);
+gulp.task('prepare', ['build-styl', 'move-assets']);
+gulp.task('build', ['prepare', 'sprite', 'coffee', 'js', 'pug'], () => runSequence('styl', reload));
 
 gulp.task('watch', () => {
 	gulp.watch(['app/**/*.pug', 'app/data/*'] , (e) => runSequence('pug', reload));
 	gulp.watch('app/blocks/**/*.styl', (e) => {
-		console.log(e.type)
 		if (e.type === 'added' || e.type === 'deleted') {
 			runSequence('styl', ['build-styl'], reload);
 		} else {
@@ -22,6 +22,7 @@ gulp.task('watch', () => {
 		}
 	});
 	gulp.watch('app/blocks/**/*.js', () => runSequence('js', reload));
+	gulp.watch('app/blocks/**/*.coffee', () => runSequence('coffee', reload));
 	gulp.watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
 			delete cache.caches['assets'][e.path];
