@@ -9,23 +9,21 @@ let fontsDir = 'app/assets/fonts',
 
 let fonts = fs.readdirSync(fontsDir);
 
+let weightList = {
+	'hairline': 100,
+	'ultralight': 200,
+	'light': 300,
+	'regular': 400,
+	'medium': 500,
+	'semibold': 600,
+	'bold': 700,
+	'ultrabold': 800,
+	'black': 900
+};
+
 createImportFile(fontsNames, fonts, stylFile, stylImportPath);
 
-function createImportFile(fontsNames, fonts, stylFile, fontRelativePath) {
-	let fontName = '';
-
-	let weightList = {
-		'hairline': 100,
-		'ultralight': 200,
-		'light': 300,
-		'regular': 400,
-		'medium': 500,
-		'semibold': 600,
-		'bold': 700,
-		'ultrabold': 800,
-		'black': 900
-	};
-
+function createImportFile(fontsNames, fonts) {
 	let importContent = '';
 
 	fonts.map((e) => {
@@ -33,36 +31,50 @@ function createImportFile(fontsNames, fonts, stylFile, fontRelativePath) {
 			let weightRegExp = new RegExp(weight),
 				styleRegExp = new RegExp(/italic/);
 
+			let fontName = getFontName(fontsNames, e);
+
 			if (weightRegExp.test(e.toLowerCase()) && styleRegExp.test(e.toLowerCase())) {
-				parseTemplate(e);
+				importContent += parseTemplate(fontName, stylImportPath, e, 'italic');
 			} else if (weightRegExp.test(e.toLowerCase())) {
-				parseTemplate(e);
+				importContent += parseTemplate(fontName, stylImportPath, e, 'normal');
 			}
 		}
 	});
+
+	console.log(importContent)
 }
 
-function parseTemplate(fontName, fontFilename, fontWeight, fontStyle) {
+function parseTemplate(fontName, pathToFont, fontFilename, fontStyle) {
+	let fontWeight = getFontWeight(fontFilename, weightList);
 	let fontTemplate =  '@font-face\r\n' +
-						'\tfont-family @fontname\r\n' +
-						'\tsrc: url(\'../fonts/@fontname\') format(\'woff\'),\r\n' +
-						'\t\turl(\'../fonts/@fontname\') format(\'woff2\')\r\n\r\n' +
-						'\tfont-style normal\r\n\r\n';
+						'\tfont-family ' + fontName + '\r\n' +
+						'\t\tsrc: url(\'' + pathToFont + fontFilename + '\') format(\'' + fontFilename.slice(fontFilename.indexOf('.') + 1) + '\')\r\n\r\n' +
+						'\tfont-weight ' + fontWeight + '\r\n' +
+						'\tfont-style ' + fontStyle + '\r\n\r\n';
 
-	console.log(fontTemplate.replace(/@fontname/g, fontFilename));
+	return fontTemplate;
 }
 
 function getFontName(fontsNames, fontFile) {
-	let fontName = {};
+	let fontName = '';
 
 	fontsNames.map((e) => {
 		let fontNameRegExp = new RegExp(e);
 
-		if (fontNameRegExp.test(e)) {
-			fontName.name = e;
-			fontName.variable = e.toLowerCase();
+		if (fontNameRegExp.test(fontFile)) {
+			fontName = e
 		}
-	})
+	});
 
-	console.log(fontName)
+	return fontName;
+}
+
+function getFontWeight(fontFileName, weightList) {
+	for (let weight in weightList) {
+		let weightRegExp = new RegExp(weight);
+
+		if (weightRegExp.test(fontFileName.toLowerCase())) {
+			return weightList[weight];
+		}
+	}
 }
