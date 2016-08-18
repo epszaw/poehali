@@ -1,6 +1,8 @@
 'use strict';
 
-const fs = require('fs');
+const fs =      require('fs'),
+	  isExist = require('file-exists'),
+	  cli =     require('cli-color');
 
 let fontsDir = 'app/assets/fonts',
 	stylFile = 'app/assets/styles/fonts.styl',
@@ -21,10 +23,19 @@ let weightList = {
 	'black': 900
 };
 
-createImportFile(fontsNames, fonts, stylFile, stylImportPath);
+if (isExist(stylFile)) {
+	fs.unlink(stylFile, (err) => {
+		if (!err) {
+			fs.writeFile(stylFile, createImportFile(fontsNames, fonts, stylFile, stylImportPath));
+			console.log(cli.greenBright('Fonts successfully imported!'));
+		}
+	});
+}
 
 function createImportFile(fontsNames, fonts) {
 	let importContent = '';
+
+	importContent += createVariables(fontsNames);
 
 	fonts.map((e) => {
 		for (let weight in weightList) {
@@ -41,7 +52,7 @@ function createImportFile(fontsNames, fonts) {
 		}
 	});
 
-	console.log(importContent)
+	return importContent;
 }
 
 function parseTemplate(fontName, pathToFont, fontFilename, fontStyle) {
@@ -77,4 +88,18 @@ function getFontWeight(fontFileName, weightList) {
 			return weightList[weight];
 		}
 	}
+}
+
+function createVariables(fontsNames) {
+	let variablesList = '',
+		variable = '';
+
+	fontsNames.map((e) => {
+		variable = e.toLowerCase() + ' = ' + e + '\r\n';
+		variablesList += variable;
+	});
+
+	variablesList += '\r\n';
+
+	return variablesList;
 }
