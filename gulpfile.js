@@ -5,16 +5,19 @@ const	gulp = 			require('gulp'),
 		runSequence = 	require('run-sequence'),
 		cache =			require('gulp-cached'),
 		browserSync = 	require('browser-sync').create(),
-		reload = 		browserSync.reload;
+		reload = 		browserSync.reload,
+		fs =            require('fs');
 
 requireDir('core/task');
+
+const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings;
 
 gulp.task('prepare', ['build-styl', 'move-assets']);
 gulp.task('build', ['prepare', 'sprite', 'coffee', 'js', 'pug'], () => runSequence('styl', reload));
 
 gulp.task('watch', () => {
-	gulp.watch(['app/**/*.pug', 'app/data/*'] , (e) => runSequence('pug', reload));
-	gulp.watch('app/**/*.styl', (e) => {
+	gulp.watch([settings.pug.watchPath, settings.pug.dataPath + '/*'] , (e) => runSequence('pug', reload));
+	gulp.watch(settings.stylus.watchPath, (e) => {
 		if (e.type === 'added' || e.type === 'deleted') {
 			runSequence('build-styl', reload);
 			runSequence('styl', reload);
@@ -24,7 +27,7 @@ gulp.task('watch', () => {
 	});
 	gulp.watch('app/**/*.js', () => runSequence('js', reload));
 	gulp.watch('app/**/*.coffee', () => runSequence('coffee', reload));
-	gulp.watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => {
+	gulp.watch([settings.images.watchPath, 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
 			delete cache.caches['assets'][e.path];
 		}
@@ -32,7 +35,7 @@ gulp.task('watch', () => {
 		runSequence('move-assets', reload);
 	});
 
-	gulp.watch('app/assets/sprites/*', () => runSequence('sprite', reload));
+	gulp.watch(settings.sprites.watchPath, () => runSequence('sprite', reload));
 });
 
 gulp.task('browserSync', () => {
@@ -41,8 +44,7 @@ gulp.task('browserSync', () => {
 			baseDir: "./dist/"
 		},
 		port: 3000,
-		open: true,
-		notify: false
+		open: true
 	});
 });
 
