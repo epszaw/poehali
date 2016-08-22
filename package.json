@@ -11,8 +11,7 @@
     "minify": "gulp minify && gulp zip",
     "block": "node core/create-block.js",
     "lblock": "node core/create-block-from-layout.js",
-    "page": "node core/create-page.js",
-    "fonts": "node core/fonts.js"
+    "page": "node core/create-page.js"
   },
   "author": "lamartire",
   "license": "MIT",
