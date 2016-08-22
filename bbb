@@ -1,0 +1,12 @@
+
+> catstruct@0.0.1 block /home/kot/KOT/projects/catstruct
+> node core/create-block.js "a" "a" "a" "a" "a" "==="
+
+[ '/usr/bin/nodejs',
+  '/home/kot/KOT/projects/catstruct/core/create-block.js',
+  'a',
+  'a',
+  'a',
+  'a',
+  'a',
+  '===' ]
