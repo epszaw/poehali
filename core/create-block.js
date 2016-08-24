@@ -98,7 +98,7 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 	let createdBlocks = [];
 
 	newBlocks.forEach((e) => {
-		let pugTemplate = 'mixin ' + e + '()\r\n\t+b.' + e + '&attributes(attributes)\r\n\t\tblock',
+		let pugTemplate = '//- include start\r\n//- include end\r\n\r\nmixin ' + e + '()\r\n\t+b.' + e + '&attributes(attributes)\r\n\t\tblock',
 			stylTemplate = '.' + e + '\r\n\tdisplay block',
 			newBlockPath = blocksDir + e;
 
@@ -117,8 +117,6 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 			// 				console.log(cli.red(err));
 			// 			}
 			// 		});
-			//
-			//
 			// 	}
 			// });
 
@@ -126,7 +124,7 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 		}
 	});
 
-	// includeNewBlock(extendable);
+	includeNewBlock(extendable, createdBlocks);
 
 	console.log(cli.green('Blocks: ' + createdBlocks.join(', ') + ' successfully create!'));
 }
@@ -137,14 +135,36 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 /
 */
 
-function includeNewBlock(extendableObject) {
+function includeNewBlock(extendableObject, createdBlocks) {
 	for (let fileType in extendableObject) {
 		if (extendableObject[fileType] !== null) {
 			let extendedFile = getExtendedFile(fileType, extendableObject[fileType]);
 
 			if (extendedFile != undefined) {
+				let includeSectionStart = extendedFile.indexOf('//- include start'),
+					includeSectionEnd = extendedFile.indexOf('//- include end'),
+					fileIncludes = '';
 
-				console.log(extendedFile)
+				if (includeSectionStart === -1) {
+					console.log(cli.red('Including to ' + extendableObject[fileType] + ' is not possible. Define "include section" and try again'));
+					return false;
+				} else {
+					fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
+
+					createdBlocks.map((e) => {
+						let includeTemplate = '\r\ninclude /blocks/' + e + '/' + e;
+
+						if (fileIncludes.indexOf(e) === -1) {
+							fileIncludes += includeTemplate;
+						} else {
+							console.log(cli.red(e + ' is already included to ' + extendableObject[fileType]));
+						}
+					});
+
+					fileIncludes += '\r\n//- include end';
+
+
+				}
 			}
 		}
 	}
