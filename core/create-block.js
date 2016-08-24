@@ -1,48 +1,210 @@
+'use strict';
+
 const fs =	require('fs'),
 	  cli = require('cli-color');
 
-var arg = process.argv[2];
+/*
+/
+/ Variables
+/
+*/
 
-if (arg == undefined) {
-	throw new Error('Block name is empty!');
+let blocksDir = 'app/blocks/',
+	layoutsDir = 'app/layouts/',
+	pagesDir = 'app/pages/';
+
+let args = process.argv,
+	parsedArgs = getArgsFromCommandLine(args);
+
+let extendableContent = parsedArgs.ext,
+	newBlocks = parsedArgs.blocks,
+	existBlocks = searchExistingBlocks(blocksDir, newBlocks);
+
+if (newBlocks.length === 0) {
+	console.log(cli.red('Here are not new blocks!'))
 } else {
-	searchExistingBlocks('app/blocks/', arg);
+	createBlocks(newBlocks, existBlocks, extendableContent);
 }
 
-function searchExistingBlocks(dir, argument) {
-	fs.readdir(dir, function (err, items) {
-		items.forEach(function (item) {
-			if (item === argument) {
-				throw new Error('Block already exist!');
+/*
+ /
+ / Parse commandline text
+ /
+ */
+
+function getArgsFromCommandLine(args) {
+	let argsList = {
+		ext: {
+			block: null,
+			layout: null,
+			page: null
+		},
+		blocks: []
+	};
+
+	for (let arg in args) {
+		if (args[arg] != process.execPath) {
+			if (args[arg] != process.mainModule.filename) {
+				if (args[arg].indexOf('EXTB=') != -1) {
+					argsList.ext.block = args[arg].slice(5);
+				} else if (args[arg].indexOf('EXTL=') != -1) {
+					argsList.ext.layout = args[arg].slice(5);
+				} else if (args[arg].indexOf('EXTP=') != -1) {
+					argsList.ext.page = args[arg].slice(5);
+				} else {
+					argsList.blocks.push(args[arg]);
+				}
 			}
-		});
+		}
+	}
 
-		createBlock(argument, dir);
-		console.log(cli.greenBright('Block ' + cli.magentaBright(argument.toUpperCase()) + ' was successfully created!'));
-	});
+	return argsList;
 }
 
-function createBlock(blockName, targetDir) {
-	var newBlock = targetDir + blockName;
+/*
+ /
+ / Search exiting block
+ /
+ */
 
-	importNewBlock('app/helpers/pug/import.pug', blockName);
+function searchExistingBlocks(dir, newBlocks) {
+	let existBlocks = [],
+		dirContent = fs.readdirSync(dir, 'utf-8');
 
-	fs.mkdir(newBlock, (err) => {
-		if (err) {
-			throw err;
-		} else {
-			fs.writeFile(newBlock + '/' + blockName + '.pug', 'mixin ' + blockName + '()\r\n\t+b.' + blockName + '&attributes(attributes)\r\n\t\tblock', (err) => {
-				if (err) throw err;
+	for (let i = 0; i < newBlocks.length; i++) {
+		for (let j = 0; j < dirContent.length; j++) {
+			if (newBlocks[i] === dirContent[j]) {
+				existBlocks.push(newBlocks[i]);
+			}
+		}
+	}
+
+	return existBlocks;
+}
+
+/*
+/
+/ Create blocks
+/
+*/
+
+function createBlocks(newBlocks, existBlocks, extendableObject) {
+	const extendable = {
+		block: extendableObject.block || null,
+		layout: extendableObject.layout || null,
+		page: extendableObject.page || null
+	};
+
+	let createdBlocks = [];
+
+	newBlocks.forEach((e) => {
+		let pugTemplate = '//- include start\r\n//- include end\r\n\r\nmixin ' + e + '()\r\n\t+b.' + e + '&attributes(attributes)\r\n\t\tblock',
+			stylTemplate = '.' + e + '\r\n\tdisplay block',
+			newBlockPath = blocksDir + e;
+
+		if (existBlocks.indexOf(e) === -1) {
+			fs.mkdir(newBlockPath, (err) => {
+				if (err) {
+					console.log(cli.red(e + ' is already exist! Detail: ' + err));
+				} else {
+					fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					});
+					fs.writeFile(newBlockPath + '/' + e + '.styl', stylTemplate, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					});
+				}
 			});
-			fs.writeFile(newBlock + '/' + blockName + '.styl', '.' + blockName + '\r\n\tdisplay block', (err) => {
-				if (err) throw err;
-			});
+
+			createdBlocks.push(e);
 		}
 	});
+
+	includeNewBlock(extendable, createdBlocks);
+
+	console.log(cli.green('Blocks: ' + createdBlocks.join(', ') + ' successfully create!'));
 }
 
-function importNewBlock(importFileName, blockName) {
-	fs.appendFile(importFileName, 'include /blocks/' + blockName + '/' + blockName + '\r\n', (err) => {
-		if (err) throw err;
-	});
+/*
+/
+/ Including new block to target file
+/
+*/
+
+function includeNewBlock(extendableObject, createdBlocks) {
+	for (let fileType in extendableObject) {
+		if (extendableObject[fileType] !== null) {
+			let extendedFile = fs.readFileSync(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, 'utf-8');
+
+			if (extendedFile != undefined) {
+				let includeSectionStart = extendedFile.indexOf('//- include start'),
+					includeSectionEnd = extendedFile.indexOf('//- include end'),
+					fileIncludes = '',
+					fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
+
+				if (includeSectionStart === -1) {
+					console.log(cli.red('Including to ' + extendableObject[fileType] + ' is not possible. Define "include section" and try again'));
+
+					return false;
+				} else {
+					fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
+
+					createdBlocks.map((e) => {
+						let includeTemplate = '\r\ninclude /blocks/' + e + '/' + e;
+
+						if (fileIncludes.indexOf(e) === -1) {
+							fileIncludes += includeTemplate;
+						} else {
+							console.log(cli.red(e + ' is already included to ' + extendableObject[fileType]));
+						}
+					});
+
+					fileIncludes += '\r\n//- include end';
+
+					fs.writeFile(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, fileIncludes + fileContent, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					})
+				}
+			}
+		}
+	}
+}
+
+/*
+/
+/ Get extended file type
+/
+*/
+
+function getExtendedFilePath(fileType, fileName) {
+	let fileData = {
+		path: '',
+		fullPath: '',
+		fileName: fileName
+	};
+
+	switch (fileType) {
+		case 'block':
+			fileData.path = blocksDir + fileName;
+			fileData.fullPath = blocksDir + fileName + '/' + fileName + '.pug';
+			break;
+
+		case 'layout':
+			fileData.path = layoutsDir;
+			fileData.fullPath = layoutsDir + fileName + '.pug';
+			break;
+
+		case 'page':
+			fileData.path = pagesDir;
+			fileData.fullPath = pagesDir + fileName + '.pug';
+			break;
+	}
+
+	return fileData;
 }
