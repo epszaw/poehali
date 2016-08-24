@@ -103,22 +103,22 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 			newBlockPath = blocksDir + e;
 
 		if (existBlocks.indexOf(e) === -1) {
-			// fs.mkdir(newBlockPath, (err) => {
-			// 	if (err) {
-			// 		console.log(cli.red(e + ' is already exist! Detail: ' + err));
-			// 	} else {
-			// 		fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
-			// 			if (err) {
-			// 				console.log(cli.red(err));
-			// 			}
-			// 		});
-			// 		fs.writeFile(newBlockPath + '/' + e + '.styl', stylTemplate, (err) => {
-			// 			if (err) {
-			// 				console.log(cli.red(err));
-			// 			}
-			// 		});
-			// 	}
-			// });
+			fs.mkdir(newBlockPath, (err) => {
+				if (err) {
+					console.log(cli.red(e + ' is already exist! Detail: ' + err));
+				} else {
+					fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					});
+					fs.writeFile(newBlockPath + '/' + e + '.styl', stylTemplate, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					});
+				}
+			});
 
 			createdBlocks.push(e);
 		}
@@ -138,15 +138,17 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 function includeNewBlock(extendableObject, createdBlocks) {
 	for (let fileType in extendableObject) {
 		if (extendableObject[fileType] !== null) {
-			let extendedFile = getExtendedFile(fileType, extendableObject[fileType]);
+			let extendedFile = fs.readFileSync(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, 'utf-8');
 
 			if (extendedFile != undefined) {
 				let includeSectionStart = extendedFile.indexOf('//- include start'),
 					includeSectionEnd = extendedFile.indexOf('//- include end'),
-					fileIncludes = '';
+					fileIncludes = '',
+					fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
 
 				if (includeSectionStart === -1) {
 					console.log(cli.red('Including to ' + extendableObject[fileType] + ' is not possible. Define "include section" and try again'));
+
 					return false;
 				} else {
 					fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
@@ -163,7 +165,11 @@ function includeNewBlock(extendableObject, createdBlocks) {
 
 					fileIncludes += '\r\n//- include end';
 
-
+					fs.writeFile(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, fileIncludes + fileContent, (err) => {
+						if (err) {
+							console.log(cli.red(err));
+						}
+					})
 				}
 			}
 		}
@@ -176,22 +182,29 @@ function includeNewBlock(extendableObject, createdBlocks) {
 /
 */
 
-function getExtendedFile(fileType, fileName) {
-	let filePath = '';
+function getExtendedFilePath(fileType, fileName) {
+	let fileData = {
+		path: '',
+		fullPath: '',
+		fileName: fileName
+	};
 
 	switch (fileType) {
 		case 'block':
-			filePath = blocksDir + fileName + '/' + fileName + '.pug';
+			fileData.path = blocksDir + fileName;
+			fileData.fullPath = blocksDir + fileName + '/' + fileName + '.pug';
 			break;
 
 		case 'layout':
-			filePath = layoutsDir + fileName + '.pug';
+			fileData.path = layoutsDir;
+			fileData.fullPath = layoutsDir + fileName + '.pug';
 			break;
 
 		case 'page':
-			filePath = pagesDir + fileName + '.pug';
+			fileData.path = pagesDir;
+			fileData.fullPath = pagesDir + fileName + '.pug';
 			break;
 	}
 
-	return fs.readFileSync(filePath, 'utf-8');
+	return fileData;
 }
