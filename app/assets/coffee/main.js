@@ -1,7 +1,5 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function (_this) {
-  return function () {
-    return console.log('Coffeescript here!');
-  };
-}(undefined));
+module.exports = console.log('Hello, it\'s coffee speak!');
+
+module.exports = Test;

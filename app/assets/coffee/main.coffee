@@ -1,2 +1,2 @@
-document.addEventListener 'DOMContentLoaded', () =>
-	console.log 'Coffeescript here!'
+module.exports = console.log 'Hello, it\'s coffee speak!'
+module.exports = Test;
