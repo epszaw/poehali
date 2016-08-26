@@ -13,7 +13,7 @@ requireDir('core/task');
 const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings;
 
 gulp.task('prepare', ['build-styl', 'move-assets']);
-gulp.task('build', ['prepare', 'sprite', 'coffee', 'js', 'pug'], () => runSequence('styl', reload));
+gulp.task('build', ['prepare', 'sprite', 'js', 'pug'], () => runSequence('styl', reload));
 
 gulp.task('watch', () => {
 	gulp.watch([settings.pug.watchPath, settings.pug.dataPath + '/*'] , (e) => runSequence('pug', reload));
@@ -25,8 +25,7 @@ gulp.task('watch', () => {
 			runSequence('styl', reload)
 		}
 	});
-	gulp.watch('app/**/*.js', () => runSequence('js', reload));
-	gulp.watch('app/**/*.coffee', () => runSequence('coffee', reload));
+	gulp.watch(['app/**/*.js', 'app/**/*.coffee'], () => runSequence('js', reload));
 	gulp.watch([settings.images.watchPath, 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
 			delete cache.caches['assets'][e.path];
