@@ -6,11 +6,14 @@ const	gulp = 			        require('gulp'),
 		source =		        require('vinyl-source-stream'),
 		browserify =	        require('browserify'),
 		coffeeify =             require('coffeeify'),
-		babelify =              require('babelify');
+		babelify =              require('babelify'),
+		fs =                    require('fs');
+
+const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.javascript;
 
 gulp.task('js', () => {
-	return browserify('app/app.coffee', {
-			paths: ['./app'],
+	return browserify(settings.sourcePath, {
+			paths: settings.basedir,
 			debug: true
 		})
 		.transform('coffeeify', {
@@ -24,5 +27,5 @@ gulp.task('js', () => {
 			errorHandler: plumberErrorHandler
 		}))
 		.pipe(source('main.js'))
-		.pipe(gulp.dest('dist/assets/js'));
+		.pipe(gulp.dest(settings.outputPath));
 });

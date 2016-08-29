@@ -3,15 +3,17 @@
 const fs =	require('fs'),
 	  cli = require('cli-color');
 
+const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).additionalScriptsSettings.createBlock;
+
 /*
 /
 / Variables
 /
 */
 
-let blocksDir = 'app/blocks/',
-	layoutsDir = 'app/layouts/',
-	pagesDir = 'app/pages/';
+let blocksDir = settings.blocksDir,
+	layoutsDir = settings.layoutsDir,
+	pagesDir = settings.pagesDir;
 
 let args = process.argv,
 	parsedArgs = getArgsFromCommandLine(args);

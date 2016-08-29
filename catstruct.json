@@ -3,7 +3,7 @@
 		"stylus": {
 			"watchPath": "app/**/*.styl",
 			"sourcePath": "",
-			"outputPath": "",
+			"outputPath": "dist/assets/css",
 			"dependenciesToImport": ["normalize", "nib", "rupture", "mixins", "fonts", "variables", "sprite"],
 			"compileHelperFunctions": ["nib()", "rupture()"]
 		},
@@ -17,15 +17,11 @@
 		},
 
 		"javascript": {
-			"watchPath": "",
-			"sourcePath": "",
-			"outputPath": ""
-		},
-
-		"coffee": {
-			"watchPath": "",
-			"sourcePath": "",
-			"outputPath": ""
+			"watchPath": ["app/**/*.js", "app/**/*.coffee"],
+			"sourcePath": "app/app.coffee",
+			"outputPath": "dist/assets/js",
+			"basedir": ["./app"],
+			"debug": true
 		},
 
 		"images": {
@@ -53,7 +49,9 @@
 
 	"additionalScriptsSettings": {
 		"createBlock": {
-
+			"blocksDir": "app/blocks/",
+			"layoutsDir": "app/layouts/",
+			"pagesDir": "app/pages/";
 		},
 
 		"importFonts": {

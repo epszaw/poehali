@@ -14,9 +14,9 @@ const 	gulp = 					require('gulp'),
 		path = 					require('path'),
 		isExist =               require('file-exists');
 
-const dependencies = [
-	'normalize', 'nib', 'rupture', 'mixins', 'fonts', 'variables', 'sprite'
-];
+const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.stylus;
+
+const dependencies = settings.dependenciesToImport;
 
 let customBrowsers = fs.readFileSync('.browsers', 'utf-8').split(' ');
 
@@ -137,6 +137,6 @@ gulp.task('styl', () => {
 				browsers: ['last 2 versions']
 			}))
 			.pipe(cssComb())
-			.pipe(gulp.dest('dist/assets/css'), {overwrite: true})
+			.pipe(gulp.dest(settings.outputPath), {overwrite: true})
 	}
 });
