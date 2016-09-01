@@ -17,7 +17,8 @@
 		},
 
 		"javascript": {
-			"watchPath": ["app/**/*.js", "app/**/*.coffee"],
+			"watchPathJs": "app/**/*.js",
+			"watchPathCoffee": "app/**/*.coffee",
 			"sourcePath": "app/app.coffee",
 			"outputPath": "dist/assets/js",
 			"basedir": ["./app"],

@@ -1,3 +1,5 @@
-Hello = require 'blocks/basic/basic.coffee'
+Stickers = require 'blocks/sticker/sticker.coffee'
+stickers = Stickers.stickers
 
-Hello.hello 'Browserity'
+document.addEventListener 'DOMContentLoaded', ->
+  stickers.logStickers(stickers.getStickers())

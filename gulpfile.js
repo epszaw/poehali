@@ -25,7 +25,7 @@ gulp.task('watch', () => {
 			runSequence('styl', reload)
 		}
 	});
-	gulp.watch(settings.javascript.watchPath, () => runSequence('js', reload));
+	gulp.watch([settings.javascript.watchPathJs, settings.javascript.watchPathCoffee], () => runSequence('js', reload));
 	gulp.watch([settings.images.watchPath, 'app/assets/fonts/**/*'], (e) => {
 		if (e.type === 'deleted') {
 			delete cache.caches['assets'][e.path];
