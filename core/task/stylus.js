@@ -14,7 +14,8 @@ const 	gulp = 					require('gulp'),
 		path = 					require('path'),
 		isExist =               require('file-exists');
 
-const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.stylus;
+const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.stylus,
+	  autoprefixerBrowsers = fs.readFileSync('.autoprefixer', 'utf-8');
 
 const dependencies = settings.dependenciesToImport;
 
@@ -134,7 +135,7 @@ gulp.task('styl', () => {
 				use: [nib(), rupture()]
 			}))
 			.pipe(autoprefixer({
-				browsers: ['last 2 versions']
+				browsers: autoprefixerBrowsers
 			}))
 			.pipe(cssComb())
 			.pipe(gulp.dest(settings.outputPath), {overwrite: true})

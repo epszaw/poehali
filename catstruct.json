@@ -4,7 +4,7 @@
 			"watchPath": "app/**/*.styl",
 			"sourcePath": "",
 			"outputPath": "dist/assets/css",
-			"dependenciesToImport": ["normalize", "nib", "rupture", "mixins", "fonts", "variables", "sprite"],
+			"dependenciesToImport": ["normalize", "nib", "rupture", "rupture-settings", "mixins", "fonts", "variables", "sprite"],
 			"compileHelperFunctions": ["nib()", "rupture()"]
 		},
 
@@ -21,7 +21,10 @@
 			"sourcePath": "app/app.coffee",
 			"outputPath": "dist/assets/js",
 			"basedir": ["./app"],
-			"debug": true
+			"debug": true,
+			"babel": {
+				"presets": ["es2015"]
+			}
 		},
 
 		"images": {
@@ -51,7 +54,7 @@
 		"createBlock": {
 			"blocksDir": "app/blocks/",
 			"layoutsDir": "app/layouts/",
-			"pagesDir": "app/pages/";
+			"pagesDir": "app/pages/"
 		},
 
 		"importFonts": {

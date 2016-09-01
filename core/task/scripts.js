@@ -14,13 +14,13 @@ const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSet
 gulp.task('js', () => {
 	return browserify(settings.sourcePath, {
 			paths: settings.basedir,
-			debug: true
+			debug: settings.debug
 		})
 		.transform('coffeeify', {
 			bare: true
 		})
 		.transform('babelify', {
-			presets: ["es2015"]
+			presets: settings.babel.presets
 		})
 		.bundle()
 		.pipe(plumber({
