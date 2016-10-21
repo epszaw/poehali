@@ -3,16 +3,16 @@ extends /layouts/default
 //- include end
 
 block content
-	h1
-		| CATSTRUCT
+  h1
+    | CATSTRUCT
 
-	p
-		| Вce готово для использования, осталось только начать :)
+  p
+    | Вce готово для использования, осталось только начать :)
 
-	+sticker(getData('stickers'))
+  +sticker(getData('stickers'))
 
-	+public
-		+icon-link({
-			icon: 'github',
-			link: 'https://github.com/lamartire/catstruct'
-		})
+  +public
+    +icon-link({
+      icon: 'github',
+      link: 'https://github.com/lamartire/catstruct'
+    })

@@ -10,24 +10,25 @@
     "zip": "gulp zip",
     "minify": "gulp minify && gulp zip",
     "block": "node core/create-block.js",
-    "lblock": "node core/create-block-from-layout.js",
-    "page": "node core/create-page.js"
+    "lint": "eslint . --ext .js --cache"
   },
   "author": "lamartire",
   "license": "MIT",
   "repository": "https://github.com/lamartire/catstruct",
   "dependencies": {
-    "coffeelint": "^1.15.7",
     "file-exists": "^2.0.0"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
-    "babelify": "^7.3.0",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-runtime": "^6.11.6",
     "browser-sync": "^2.11.1",
-    "browserify": "^13.0.1",
-    "browserify-coffeelint": "^1.2.0",
     "cli-color": "^1.1.0",
-    "coffeeify": "^2.0.1",
+    "eslint": "^3.8.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
@@ -45,16 +46,16 @@
     "gulp-remember": "^0.3.1",
     "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.3.0",
-    "gulp-uglifyjs": "^0.6.2",
     "gulp-zip": "^3.2.0",
     "gulp.spritesmith": "^6.2.0",
     "jade-get-data": "^1.0.1",
-    "nib": "^1.1.0",
     "node-gyp": "^3.3.1",
     "pngjs": "^2.2.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.2.1",
     "rupture": "^0.6.1",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^1.13.2",
+    "webpack-stream": "^3.2.0"
   }
 }

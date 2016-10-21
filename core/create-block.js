@@ -1,7 +1,7 @@
 'use strict';
 
-const fs =	require('fs'),
-	  cli = require('cli-color');
+const fs =  require('fs'),
+    cli = require('cli-color');
 
 const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).additionalScriptsSettings.createBlock;
 
@@ -12,20 +12,20 @@ const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).addition
 */
 
 let blocksDir = settings.blocksDir,
-	layoutsDir = settings.layoutsDir,
-	pagesDir = settings.pagesDir;
+  layoutsDir = settings.layoutsDir,
+  pagesDir = settings.pagesDir;
 
 let args = process.argv,
-	parsedArgs = getArgsFromCommandLine(args);
+  parsedArgs = getArgsFromCommandLine(args);
 
 let extendableContent = parsedArgs.ext,
-	newBlocks = parsedArgs.blocks,
-	existBlocks = searchExistingBlocks(blocksDir, newBlocks);
+  newBlocks = parsedArgs.blocks,
+  existBlocks = searchExistingBlocks(blocksDir, newBlocks);
 
 if (newBlocks.length === 0) {
-	console.log(cli.red('Here are not new blocks!'))
+  console.log(cli.red('Here are not new blocks!'))
 } else {
-	createBlocks(newBlocks, existBlocks, extendableContent);
+  createBlocks(newBlocks, existBlocks, extendableContent);
 }
 
 /*
@@ -35,32 +35,32 @@ if (newBlocks.length === 0) {
  */
 
 function getArgsFromCommandLine(args) {
-	let argsList = {
-		ext: {
-			block: null,
-			layout: null,
-			page: null
-		},
-		blocks: []
-	};
+  let argsList = {
+    ext: {
+      block: null,
+      layout: null,
+      page: null
+    },
+    blocks: []
+  };
 
-	for (let arg in args) {
-		if (args[arg] != process.execPath) {
-			if (args[arg] != process.mainModule.filename) {
-				if (args[arg].indexOf('EXTB=') != -1) {
-					argsList.ext.block = args[arg].slice(5);
-				} else if (args[arg].indexOf('EXTL=') != -1) {
-					argsList.ext.layout = args[arg].slice(5);
-				} else if (args[arg].indexOf('EXTP=') != -1) {
-					argsList.ext.page = args[arg].slice(5);
-				} else {
-					argsList.blocks.push(args[arg]);
-				}
-			}
-		}
-	}
+  for (let arg in args) {
+    if (args[arg] != process.execPath) {
+      if (args[arg] != process.mainModule.filename) {
+        if (args[arg].indexOf('EXTB=') != -1) {
+          argsList.ext.block = args[arg].slice(5);
+        } else if (args[arg].indexOf('EXTL=') != -1) {
+          argsList.ext.layout = args[arg].slice(5);
+        } else if (args[arg].indexOf('EXTP=') != -1) {
+          argsList.ext.page = args[arg].slice(5);
+        } else {
+          argsList.blocks.push(args[arg]);
+        }
+      }
+    }
+  }
 
-	return argsList;
+  return argsList;
 }
 
 /*
@@ -70,18 +70,18 @@ function getArgsFromCommandLine(args) {
  */
 
 function searchExistingBlocks(dir, newBlocks) {
-	let existBlocks = [],
-		dirContent = fs.readdirSync(dir, 'utf-8');
+  let existBlocks = [],
+    dirContent = fs.readdirSync(dir, 'utf-8');
 
-	for (let i = 0; i < newBlocks.length; i++) {
-		for (let j = 0; j < dirContent.length; j++) {
-			if (newBlocks[i] === dirContent[j]) {
-				existBlocks.push(newBlocks[i]);
-			}
-		}
-	}
+  for (let i = 0; i < newBlocks.length; i++) {
+    for (let j = 0; j < dirContent.length; j++) {
+      if (newBlocks[i] === dirContent[j]) {
+        existBlocks.push(newBlocks[i]);
+      }
+    }
+  }
 
-	return existBlocks;
+  return existBlocks;
 }
 
 /*
@@ -91,44 +91,44 @@ function searchExistingBlocks(dir, newBlocks) {
 */
 
 function createBlocks(newBlocks, existBlocks, extendableObject) {
-	const extendable = {
-		block: extendableObject.block || null,
-		layout: extendableObject.layout || null,
-		page: extendableObject.page || null
-	};
+  const extendable = {
+    block: extendableObject.block || null,
+    layout: extendableObject.layout || null,
+    page: extendableObject.page || null
+  };
 
-	let createdBlocks = [];
+  let createdBlocks = [];
 
-	newBlocks.forEach((e) => {
-		let pugTemplate = '//- include start\r\n//- include end\r\n\r\nmixin ' + e + '()\r\n\t+b.' + e + '&attributes(attributes)\r\n\t\tblock',
-			stylTemplate = '.' + e + '\r\n\tdisplay block',
-			newBlockPath = blocksDir + e;
+  newBlocks.forEach((e) => {
+    let pugTemplate = '//- include start\r\n//- include end\r\n\r\nmixin ' + e + '()\r\n\t+b.' + e + '&attributes(attributes)\r\n\t\tblock',
+      stylTemplate = '.' + e + '\r\n\tdisplay block',
+      newBlockPath = blocksDir + e;
 
-		if (existBlocks.indexOf(e) === -1) {
-			fs.mkdir(newBlockPath, (err) => {
-				if (err) {
-					console.log(cli.red(e + ' is already exist! Detail: ' + err));
-				} else {
-					fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
-						if (err) {
-							console.log(cli.red(err));
-						}
-					});
-					fs.writeFile(newBlockPath + '/' + e + '.styl', stylTemplate, (err) => {
-						if (err) {
-							console.log(cli.red(err));
-						}
-					});
-				}
-			});
+    if (existBlocks.indexOf(e) === -1) {
+      fs.mkdir(newBlockPath, (err) => {
+        if (err) {
+          console.log(cli.red(e + ' is already exist! Detail: ' + err));
+        } else {
+          fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
+            if (err) {
+              console.log(cli.red(err));
+            }
+          });
+          fs.writeFile(newBlockPath + '/' + e + '.styl', stylTemplate, (err) => {
+            if (err) {
+              console.log(cli.red(err));
+            }
+          });
+        }
+      });
 
-			createdBlocks.push(e);
-		}
-	});
+      createdBlocks.push(e);
+    }
+  });
 
-	includeNewBlock(extendable, createdBlocks);
+  includeNewBlock(extendable, createdBlocks);
 
-	console.log(cli.green('Blocks: ' + createdBlocks.join(', ') + ' successfully create!'));
+  console.log(cli.green('Blocks: ' + createdBlocks.join(', ') + ' successfully create!'));
 }
 
 /*
@@ -138,44 +138,44 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 */
 
 function includeNewBlock(extendableObject, createdBlocks) {
-	for (let fileType in extendableObject) {
-		if (extendableObject[fileType] !== null) {
-			let extendedFile = fs.readFileSync(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, 'utf-8');
+  for (let fileType in extendableObject) {
+    if (extendableObject[fileType] !== null) {
+      let extendedFile = fs.readFileSync(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, 'utf-8');
 
-			if (extendedFile != undefined) {
-				let includeSectionStart = extendedFile.indexOf('//- include start'),
-					includeSectionEnd = extendedFile.indexOf('//- include end'),
-					fileIncludes = '',
-					fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
+      if (extendedFile != undefined) {
+        let includeSectionStart = extendedFile.indexOf('//- include start'),
+          includeSectionEnd = extendedFile.indexOf('//- include end'),
+          fileIncludes = '',
+          fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
 
-				if (includeSectionStart === -1) {
-					console.log(cli.red('Including to ' + extendableObject[fileType] + ' is not possible. Define "include section" and try again'));
+        if (includeSectionStart === -1) {
+          console.log(cli.red('Including to ' + extendableObject[fileType] + ' is not possible. Define "include section" and try again'));
 
-					return false;
-				} else {
-					fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
+          return false;
+        } else {
+          fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
 
-					createdBlocks.map((e) => {
-						let includeTemplate = '\r\ninclude /blocks/' + e + '/' + e;
+          createdBlocks.map((e) => {
+            let includeTemplate = '\r\ninclude /blocks/' + e + '/' + e;
 
-						if (fileIncludes.indexOf(e) === -1) {
-							fileIncludes += includeTemplate;
-						} else {
-							console.log(cli.red(e + ' is already included to ' + extendableObject[fileType]));
-						}
-					});
+            if (fileIncludes.indexOf(e) === -1) {
+              fileIncludes += includeTemplate;
+            } else {
+              console.log(cli.red(e + ' is already included to ' + extendableObject[fileType]));
+            }
+          });
 
-					fileIncludes += '\r\n//- include end';
+          fileIncludes += '\r\n//- include end';
 
-					fs.writeFile(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, fileIncludes + fileContent, (err) => {
-						if (err) {
-							console.log(cli.red(err));
-						}
-					})
-				}
-			}
-		}
-	}
+          fs.writeFile(getExtendedFilePath(fileType, extendableObject[fileType]).fullPath, fileIncludes + fileContent, (err) => {
+            if (err) {
+              console.log(cli.red(err));
+            }
+          })
+        }
+      }
+    }
+  }
 }
 
 /*
@@ -185,28 +185,28 @@ function includeNewBlock(extendableObject, createdBlocks) {
 */
 
 function getExtendedFilePath(fileType, fileName) {
-	let fileData = {
-		path: '',
-		fullPath: '',
-		fileName: fileName
-	};
+  let fileData = {
+    path: '',
+    fullPath: '',
+    fileName: fileName
+  };
 
-	switch (fileType) {
-		case 'block':
-			fileData.path = blocksDir + fileName;
-			fileData.fullPath = blocksDir + fileName + '/' + fileName + '.pug';
-			break;
+  switch (fileType) {
+    case 'block':
+      fileData.path = blocksDir + fileName;
+      fileData.fullPath = blocksDir + fileName + '/' + fileName + '.pug';
+      break;
 
-		case 'layout':
-			fileData.path = layoutsDir;
-			fileData.fullPath = layoutsDir + fileName + '.pug';
-			break;
+    case 'layout':
+      fileData.path = layoutsDir;
+      fileData.fullPath = layoutsDir + fileName + '.pug';
+      break;
 
-		case 'page':
-			fileData.path = pagesDir;
-			fileData.fullPath = pagesDir + fileName + '.pug';
-			break;
-	}
+    case 'page':
+      fileData.path = pagesDir;
+      fileData.fullPath = pagesDir + fileName + '.pug';
+      break;
+  }
 
-	return fileData;
+  return fileData;
 }
