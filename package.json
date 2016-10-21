@@ -9,7 +9,8 @@
     "build": "gulp build",
     "zip": "gulp zip",
     "minify": "gulp minify && gulp zip",
-    "block": "node core/create-block.js"
+    "block": "node core/create-block.js",
+    "lint": "eslint . --ext .js --cache"
   },
   "author": "lamartire",
   "license": "MIT",
