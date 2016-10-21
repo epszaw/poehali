@@ -1,9 +1,9 @@
 mixin sticker(items)
-	+b.sticker
-		each item in items
-			+e.item
-				+e('p').title= item.title
+  +b.sticker
+    each item in items
+      +e.item
+        +e('p').title= item.title
 
-				+e('p').text= item.text
+        +e('p').text= item.text
 
-				+e('pre').code= item.code
+        +e('pre').code= item.code

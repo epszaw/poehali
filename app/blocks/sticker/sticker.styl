@@ -1,42 +1,42 @@
 .sticker
-	margin 30px auto
-	width 90%
-	display flex
-	justify-content space-between
-	align-items flex-start
+  margin 30px auto
+  width 90%
+  display flex
+  justify-content space-between
+  align-items flex-start
 
-	+below(1240px)
-		text-align center
+  +below(1240px)
+    text-align center
 
-	&__item
-		display inline-block
-		background #fff
-		padding 15px
-		width 25%
-		margin 0 auto
-		position relative
-		vertical-align top
-		+below(1240px)
-			width 90%
-			display block
-			margin 10px auto
-			
-		&:before
-			position absolute
-			sprite($paperclip)
-			content ''
-			top -14px
-			right 15px
+  &__item
+    display inline-block
+    background #fff
+    padding 15px
+    width 25%
+    margin 0 auto
+    position relative
+    vertical-align top
+    +below(1240px)
+      width 90%
+      display block
+      margin 10px auto
 
-	&__title
-		font-size 20px
-		text-align center
-		font-weight 600
+    &:before
+      position absolute
+      sprite($paperclip)
+      content ''
+      top -14px
+      right 15px
 
-	&__text
-		text-align left
-		
-	&__code
-		font-family monospace
-		padding 15px
-		border 1px dashed blackColor
+  &__title
+    font-size 20px
+    text-align center
+    font-weight 600
+
+  &__text
+    text-align left
+
+  &__code
+    font-family monospace
+    padding 15px
+    border 1px dashed blackColor
