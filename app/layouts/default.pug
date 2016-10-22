@@ -1,15 +1,9 @@
 //- include start
 include /helpers/pug/bemto/index
 include /blocks/head/head
-include /blocks/wrapper/wrapper
-include /blocks/container/container
-include /blocks/sticker/sticker
-include /blocks/icon-link/icon-link
-include /blocks/public/public
 //- include end
 
-+head('Simple template, настолько simple, что ваще')
++head('Simple template')
 
-+wrapper
-  +container
-    block content
+body
+  block content

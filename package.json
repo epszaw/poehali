@@ -46,6 +46,7 @@
     "gulp-remember": "^0.3.1",
     "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.3.0",
+    "gulp-uglifyjs": "^0.6.2",
     "gulp-zip": "^3.2.0",
     "gulp.spritesmith": "^6.2.0",
     "jade-get-data": "^1.0.1",

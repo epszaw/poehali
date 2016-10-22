@@ -1,65 +1,65 @@
 {
-	"buildSettings": {
-		"stylus": {
-			"watchPath": "app/**/*.styl",
-			"sourcePath": "",
-			"outputPath": "dist/assets/css",
-			"dependenciesToImport": ["normalize", "nib", "rupture", "rupture-settings", "mixins", "fonts", "variables", "sprite"],
-			"compileHelperFunctions": ["nib()", "rupture()"]
-		},
+  "buildSettings": {
+    "stylus": {
+      "watchPath": "app/**/*.styl",
+      "sourcePath": "",
+      "outputPath": "dist/assets/css",
+      "dependenciesToImport": ["normalize", "rupture", "rupture-settings", "mixins", "fonts", "variables", "sprite"],
+      "compileHelperFunctions": ["rupture()"]
+    },
 
-		"pug": {
-			"watchPath": "app/**/*.pug",
-			"sourcePath": "app/**/*.pug",
-			"filterPath": "app/pages/*",
-			"outputPath": "dist",
-			"dataPath": "app/data"
-		},
+    "pug": {
+      "watchPath": "app/**/*.pug",
+      "sourcePath": "app/**/*.pug",
+      "filterPath": "app/pages/*",
+      "outputPath": "dist",
+      "dataPath": "app/data"
+    },
 
-		"javascript": {
-			"watchPathJs": "app/**/*.js",
-			"watchPathCoffee": "app/**/*.coffee",
-			"sourcePath": "app/app.coffee",
-			"outputPath": "dist/assets/js",
-			"basedir": ["./app"],
-			"debug": true,
-			"babel": {
-				"presets": ["es2015"]
-			}
-		},
+    "javascript": {
+      "watchPathJs": "app/**/*.js",
+      "watchPathCoffee": "app/**/*.coffee",
+      "sourcePath": "app/app.coffee",
+      "outputPath": "dist/assets/js",
+      "basedir": ["./app"],
+      "debug": true,
+      "babel": {
+        "presets": ["es2015"]
+      }
+    },
 
-		"images": {
-			"watchPath": "app/assets/images/**/*",
-			"sourcePath": "app/assets/images/**/*",
-			"outputPath": "dist/assets/images"
-		},
+    "images": {
+      "watchPath": "app/assets/images/**/*",
+      "sourcePath": "app/assets/images/**/*",
+      "outputPath": "dist/assets/images"
+    },
 
-		"sprites": {
-			"watchPath": "app/assets/sprites/*",
-			"spriteData": "app/assets/sprites/**/*",
-			"image": {
-				"imgFilename": "sprite.png",
-				"imgPath": "/assets/images/sprite.png",
-				"imageOutputPath": "dist/assets/images"
-			},
-			"styl": {
-				"stylName": "sprite.styl",
-				"stylPath": "sprite.styl",
-				"stylOutputPath": "app/assets/styles"
-			},
-			"padding": 10
-		}
-	},
+    "sprites": {
+      "watchPath": "app/assets/sprites/*",
+      "spriteData": "app/assets/sprites/**/*",
+      "image": {
+        "imgFilename": "sprite.png",
+        "imgPath": "/assets/images/sprite.png",
+        "imageOutputPath": "dist/assets/images"
+      },
+      "styl": {
+        "stylName": "sprite.styl",
+        "stylPath": "sprite.styl",
+        "stylOutputPath": "app/assets/styles"
+      },
+      "padding": 10
+    }
+  },
 
-	"additionalScriptsSettings": {
-		"createBlock": {
-			"blocksDir": "app/blocks/",
-			"layoutsDir": "app/layouts/",
-			"pagesDir": "app/pages/"
-		},
+  "additionalScriptsSettings": {
+    "createBlock": {
+      "blocksDir": "app/blocks/",
+      "layoutsDir": "app/layouts/",
+      "pagesDir": "app/pages/"
+    },
 
-		"importFonts": {
+    "importFonts": {
 
-		}
-	}
+    }
+  }
 }

@@ -1,18 +1,17 @@
 'use strict';
 
-const   gulp =           require('gulp'),
-    concat =        require('gulp-concat'),
-    stylus =         require('gulp-stylus'),
-    cssComb =         require('gulp-csscomb'),
-    autoprefixer =       require('gulp-autoprefixer'),
-    plumber =         require('gulp-plumber'),
-    plumberErrorHandler =   require('gulp-plumber-error-handler'),
-    rupture =         require('rupture'),
-    nib =           require('nib'),
-    cli =           require('cli-color'),
-    fs =           require('fs'),
-    path =           require('path'),
-    isExist =               require('file-exists');
+const gulp =           require('gulp'),
+      concat =        require('gulp-concat'),
+      stylus =         require('gulp-stylus'),
+      cssComb =         require('gulp-csscomb'),
+      autoprefixer =       require('gulp-autoprefixer'),
+      plumber =         require('gulp-plumber'),
+      plumberErrorHandler =   require('gulp-plumber-error-handler'),
+      rupture =         require('rupture'),
+      cli =           require('cli-color'),
+      fs =           require('fs'),
+      path =           require('path'),
+      isExist =               require('file-exists');
 
 const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.stylus,
     autoprefixerBrowsers = fs.readFileSync('.autoprefixer', 'utf-8');
@@ -132,7 +131,7 @@ gulp.task('styl', () => {
         errorHandler: plumberErrorHandler('Error was occurred during STYLUS compile')
       }))
       .pipe(stylus({
-        use: [nib(), rupture()]
+        use: [rupture()]
       }))
       .pipe(autoprefixer({
         browsers: autoprefixerBrowsers
