@@ -15,7 +15,7 @@ Create block/blocks (create dir with pug/styl):
 npm run block blockname1 blockname2 blockname3
 ```
 
-## Структура
+## Folder structure
 
 ```
 ├──app/
