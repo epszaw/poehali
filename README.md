@@ -1,103 +1,78 @@
 # Catstruct
 
-## Таски и команды
+## Commands
 
-Установка зависимостей:
-```
-npm i
-```
-Запуск сборки проекта с **отслеживанием изменений**:
+Start with watching:
 ```
 npm start
 ```
-Сборка проекта
+Build:
 ```
 npm build
 ```
-Создание блока (создает папку с заданным именем и файлами pug/styl):
+Create block/blocks (create dir with pug/styl):
 ```
 npm run block blockname1 blockname2 blockname3
 ```
-Запуск eslint:
-```
-npm run lint
-```
-Упаковка папки `dist` в архив:
-```
-npm run zip
-```
+
 ## Структура
 
 ```
 ├──app/
-|	├──assets/ - ресурсы, которые используются в дальнейшем (пути сохраняются)
-|	|   ├──fonts/ - шрифты
-|	|   ├──images/ - картинки
-|	|   ├──styles/ - скомпилированные стили и различные хелперы
-|	|   |   ├──fonts.styl - подключение шрифтов (важно помнить, что путь до шрифтов остается таким же, как и в примере)
-|	|   |   ├──main.styl - основной файл для компиляции, может иметь постфикс вида @ie9
-|	|   |   ├──mixins.styl - примеси stylus'a
-|	|   |   ├──rupture-settings.styl - настройки брейкпоинтов для rupture
-|	|   |   ├──variables.styl - переменные stylus'a
-|	|   |   └──sprite.styl - генерируемый файл спрайтов
-|	|   └──sprites/ - папка для спрайтов (исходники для склейки)
+|	├──assets/
+|	|   ├──fonts/
+|	|   ├──images/
+|	|   ├──styles/ - compiled styles and helpers
+|	|   |   ├──fonts.styl
+|	|   |   ├──main.styl - "bundle"
+|	|   |   ├──mixins.styl
+|	|   |   ├──rupture-settings.styl
+|	|   |   ├──variables.styl
+|	|   |   └──sprite.styl - spritesmith file
+|	|   └──sprites/ - sprites dir
 |	|
-|	├──layouts/ - шаблоны pug
-|	├──blocks/ - папки с блоками (pug + styl + js)
+|	├──layouts/
+|	├──blocks/
 |	|
-|	├──data/ - коллекция json-файлов с данными
+|	├──data/ - json-data files
 |	|
-|	├──helpers/ - различные хелперы
-|   |   └──pug/
-|	|       ├──import.pug - все импорты pug зависимостей (генерируется автоматически)
-|   |       └──bemto/ - БЭМ для pug
+|	├──helpers/
+| |   └──pug/
+| |       └──bemto/ - БЭМ для pug
 |	|
-|	├──app.js - главный скрипт для бандла
+|	├──app.js - main script
 |	|
-|	└──pages/ - файлы с разметкой страниц
+|	└──pages/
 |
 ├──core/
-|   ├─tasks/
-|   ├─blocks-layouts/ - шаблоны для генерации блоков (сам скрипт в процессе разработки)
-|   |
-|   └─create-block.js - скрипт герерации блока
+|   └─tasks/
 |
-├──catstruct.json - настройки шаблона
-├──.autoprefixer - настройки автопрефиксера
-└──.browsers - список браузеров, которым будет собираться "персональный" файл стилей
+├──catstruct.json - settings
+├──.autoprefixer
+└──.browsers
 ```
 
-## Конфигурация шаблона
+## Old browsers support
 
-Конфигурация производится в файле `catstruct.json`.
+If you create `blockname@ie9.styl`, you'll get `main@ie9.css`.
 
-## Поддержка `ie9` и прочих версий
+You can define target browser in `.browsers`.
 
-Чтобы реализовать "рукописную" поддержку CSS в IE, в особенности старых браузерах, в шаболне реализовано решение:
+Include `@id9` bundle in your project.
 
-Создаем файл `blockname@ie9.styl`, на выходе получаем `main@ie9.css`, который можно спокойно подключать через псевдо-комментарии.
+## Blocks inheritance
 
-Чтобы шаблон знал, какие браузеры войдут в сборку, нужно указать их список в корне лежит файл `.browsers`.
+For multiple blocks creation: `npm run block blockname1 blockname2 blockname3`.
 
-Указываем в нем список версий ie:
+Some arguments:
 
-```
-ie9 ie8
-```
-
-Создаем файлы стилей описанные выше, на выходе получим "персональные" файлы стилей, для этих браузеров.
-
-## Создание блоков
-
-Чтобы создать один или несколько блоков, нужно воспользоваться командой: `npm run block blockname1 blockname2 blockname3`. Чтобы подключить блок в какой-нибудь файл (страницу, шаблон или блок), можно воспользоваться следующими аргументами:
-
-|**Аргумент**|**Значение**|
+|**Argument**|**Value**|
 |------------|-------------|
-|EXTB=blockname|Блок, в который будет сделан инклюд|
-|EXTL=layoutname|Шаблон, в который будет сделан инклюд|
-|EXTP=pagename|Страница, в которую будет сделан инклюд|
+|EXTB=blockname|Extendable block|
+|EXTL=layoutname|Extendable layout|
+|EXTP=pagename|Extendable page|
 
-Чтобы инклюд был осуществлен корректно, в `pug` файлах нужно создать секцию из комментариев:
+For correctly extending, you must create following section in `pug` files:
 
 ```
 //- include start
@@ -105,8 +80,4 @@ ie9 ie8
 //- include end
 ```
 
-Внутри этой обертки будут размещены новые инклюды. **Добавлять секцию нужно только в старых файлах, файлы создаваемые с помощью скрипта уже содержат эту секцию**.
-
-### *Для чего это*
-
-Ранее, все инклюдилось в один файл, что вызывало большие задержки во время генерации, новый метод не отличается ничем от ручного инклюда.
+**If you create blocks with `block` script, it already has this section**.
