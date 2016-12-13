@@ -1,50 +1,32 @@
 'use strict';
 
-const  gulp =       require('gulp'),
-    requireDir =   require('require-dir'),
-    runSequence =   require('run-sequence'),
-    cache =      require('gulp-cached'),
-    browserSync =   require('browser-sync').create(),
-    reload =     browserSync.reload,
-    fs =            require('fs');
+const gulp = require('gulp'),
+  requireDir = require('require-dir'),
+  runSequence = require('run-sequence'),
+  browserSync = require('browser-sync'),
+  path = require('path'),
+  watch = require('gulp-watch'),
+  bs = browserSync.create();
 
 requireDir('core/task');
 
-const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings;
-
-gulp.task('prepare', ['build-styl', 'move-assets']);
-gulp.task('build', ['prepare', 'sprite', 'js', 'pug'], () => runSequence('styl', reload));
+gulp.task('build', ['css', 'move-assets', 'sprite', 'js', 'pug']);
 
 gulp.task('watch', () => {
-  gulp.watch([settings.pug.watchPath, settings.pug.dataPath + '/*'] , (e) => runSequence('pug', reload));
-  gulp.watch(settings.stylus.watchPath, (e) => {
-    if (e.type === 'added' || e.type === 'deleted') {
-      runSequence('build-styl', reload);
-      runSequence('styl', reload);
-    } else {
-      runSequence('styl', reload)
-    }
-  });
-  // gulp.watch([settings.javascript.watchPathJs, settings.javascript.watchPathCoffee], () => runSequence('js', reload));
-  gulp.watch([settings.images.watchPath, 'app/assets/fonts/**/*'], (e) => {
-    if (e.type === 'deleted') {
-      delete cache.caches['assets'][e.path];
-    }
-
-    runSequence('move-assets', reload);
-  });
-
-  gulp.watch(settings.sprites.watchPath, () => runSequence('sprite', reload));
+  watch('app/**/*.pug', (e) => runSequence('pug', bs.reload));
+  watch('app/**/*.css', (e) => runSequence('css', bs.reload));
+  watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => runSequence('move-assets', bs.reload));
+  watch('app/assets/sprite/*', () => runSequence('sprite', bs.reload));
 });
 
 gulp.task('browserSync', () => {
   browserSync.init({
     server: {
-      baseDir: "./dist/"
+      baseDir: path.resolve(__dirname, 'dist/')
     },
-    port: 3000,
-    open: true
+    port: 8080,
+    open: false
   });
 });
 
-gulp.task('start', ['build', 'watch', 'browserSync']);
+gulp.task('default', ['browserSync', 'build', 'watch']);

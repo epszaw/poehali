@@ -1,26 +1,25 @@
 'use strict';
 
-const   gulp =           require('gulp'),
-    gulpPug =         require('gulp-pug'),
-    getData =         require('jade-get-data'),
-    plumber =         require('gulp-plumber'),
-    plumberErrorHandler =   require('gulp-plumber-error-handler'),
-    filter =         require('gulp-filter'),
-    rename =        require('gulp-rename'),
-    fs =                    require('fs');
-
-const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.pug;
+const gulp = require('gulp'),
+  browserSync = require('browser-sync'),
+  gulpPug = require('gulp-pug'),
+  getData = require('jade-get-data'),
+  plumber = require('gulp-plumber'),
+  plumberErrorHandler = require('gulp-plumber-error-handler'),
+  filter = require('gulp-filter'),
+  rename = require('gulp-rename'),
+  fs = require('fs');
 
 const data = {
-  getData: getData(settings.dataPath)
+  getData: getData('app/data')
 };
 
 gulp.task('pug', () => {
-  return gulp.src(settings.sourcePath)
+  return gulp.src('app/**/*.pug')
     .pipe(plumber({
       errorHandler: plumberErrorHandler('Error was occurred during PUG compile')
     }))
-    .pipe(filter(settings.filterPath || 'app/pages/*'))
+    .pipe(filter('app/pages/*'))
     .pipe(gulpPug({
       basedir: 'app',
       pretty: true,
@@ -29,5 +28,6 @@ gulp.task('pug', () => {
     .pipe(rename({
       dirname: '.'
     }))
-    .pipe(gulp.dest(settings.outputPath))
+    .pipe(gulp.dest('dist'))
+    .pipe(browserSync.stream());
 });

@@ -1,20 +1,19 @@
-const   gulp =      require('gulp'),
-    spritesmith =  require('gulp.spritesmith'),
-    fs =            require('fs');
+'use strict';
 
-const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.sprites;
+const gulp = require('gulp'),
+  spritesmith = require('gulp.spritesmith');
 
 gulp.task('sprite', () => {
-  let spriteData = gulp.src(settings.spriteData)
+  let spriteData = gulp.src('app/assets/sprites/**/*')
     .pipe(spritesmith({
-    imgName: settings.image.imgFilename,
-    imgPath: settings.image.imgPath,
-    cssName: settings.styl.stylName,
-    cssFormat: 'stylus',
-    algorithm: 'binary-tree',
-    padding: settings.padding
-  }));
+      imgName: 'sprite.png',
+      imgPath: '/assets/images/sprite.png',
+      cssName: 'sprite.css',
+      cssFormat: 'css',
+      algorithm: 'binary-tree',
+      padding: 10
+    }));
 
-  spriteData.img.pipe(gulp.dest(settings.image.imageOutputPath));
-  spriteData.css.pipe(gulp.dest(settings.styl.stylOutputPath));
+  spriteData.img.pipe(gulp.dest('dist/assets/images'));
+  spriteData.css.pipe(gulp.dest('app/assets/css'));
 });

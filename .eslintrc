@@ -2,12 +2,19 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "es6": true,
+    "es6": true
   },
+  "extends": "eslint:recommended",
   "ignore-path": ["node_modules", "dist"],
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
     "indent": ["error", 2]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "spread": true
+    }
   }
 }

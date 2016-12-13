@@ -1,7 +1,8 @@
-const   gulp =     require('gulp'),
-    minifyCss = require('gulp-clean-css'),
-    uglifyJs =  require('gulp-uglifyjs');
+'use strict';
 
+const   gulp =     require('gulp'),
+  minifyCss = require('gulp-clean-css'),
+  uglifyJs =  require('gulp-uglifyjs');
 
 gulp.task('minify-css', () => {
   return gulp.src('dist/assets/css/*')
