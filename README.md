@@ -19,30 +19,30 @@ npm run block blockname1 blockname2 blockname3
 
 ```
 ├──app/
-|	├──assets/
-|	|   ├──fonts/
-|	|   ├──images/
-|	|   ├──styles/ - compiled styles and helpers
-|	|   |   ├──fonts.styl
-|	|   |   ├──main.styl - "bundle"
-|	|   |   ├──mixins.styl
-|	|   |   ├──rupture-settings.styl
-|	|   |   ├──variables.styl
-|	|   |   └──sprite.styl - spritesmith file
-|	|   └──sprites/ - sprites dir
-|	|
-|	├──layouts/
-|	├──blocks/
-|	|
-|	├──data/ - json-data files
-|	|
-|	├──helpers/
+| ├──assets/
+| |   ├──fonts/
+| |   ├──images/
+| |   ├──styles/ - compiled styles and helpers
+| |   |   ├──fonts.styl
+| |   |   ├──main.styl - "bundle"
+| |   |   ├──mixins.styl
+| |   |   ├──rupture-settings.styl
+| |   |   ├──variables.styl
+| |   |   └──sprite.styl - spritesmith file
+| |   └──sprites/ - sprites dir
+| |
+| ├──layouts/
+| ├──blocks/
+| |
+| ├──data/ - json-data files
+| |
+| ├──helpers/
 | |   └──pug/
 | |       └──bemto/ - БЭМ для pug
-|	|
-|	├──app.js - main script
-|	|
-|	└──pages/
+| |
+| ├──app.js - main script
+| |
+| └──pages/
 |
 ├──core/
 |   └─tasks/
