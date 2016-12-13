@@ -10,7 +10,7 @@ Build:
 ```
 npm build
 ```
-Create block/blocks (create dir with pug/styl):
+Create block/blocks (create dir with pug/css):
 ```
 npm run block blockname1 blockname2 blockname3
 ```
@@ -19,47 +19,28 @@ npm run block blockname1 blockname2 blockname3
 
 ```
 ├──app/
-| ├──assets/
-| |   ├──fonts/
-| |   ├──images/
-| |   ├──styles/ - compiled styles and helpers
-| |   |   ├──fonts.styl
-| |   |   ├──main.styl - "bundle"
-| |   |   ├──mixins.styl
-| |   |   ├──rupture-settings.styl
-| |   |   ├──variables.styl
-| |   |   └──sprite.styl - spritesmith file
-| |   └──sprites/ - sprites dir
-| |
-| ├──layouts/
-| ├──blocks/
-| |
-| ├──data/ - json-data files
-| |
-| ├──helpers/
-| |   └──pug/
-| |       └──bemto/ - БЭМ для pug
-| |
-| ├──app.js - main script
-| |
-| └──pages/
-|
-├──core/
-|   └─tasks/
-|
-├──catstruct.json - settings
-├──.autoprefixer
-└──.browsers
+|   ├──assets/
+|   |   ├──fonts/
+|   |   ├──images/
+|   |   └──sprites/ - sprites dir
+|   ├──css/
+|   |   ├──fonts.css
+|   |   ├──main.css
+|   |   ├──mixins.css
+|   |   ├──breakpoints.css
+|   |   ├──variables.css
+|   |   └──sprite.css - spritesmith file
+|   ├──layouts/
+|   ├──blocks/
+|   ├──data/ - json-data files
+|   ├──helpers/
+|   |   └──pug/
+|   |       └──bemto/ - BEM for pug
+|   ├──app.js - main script
+|   └──pages/
+└──core/
+    └─tasks/
 ```
-
-## Old browsers support
-
-If you create `blockname@ie9.styl`, you'll get `main@ie9.css`.
-
-You can define target browser in `.browsers`.
-
-Include `@id9` bundle in your project.
-
 ## Blocks inheritance
 
 For multiple blocks creation: `npm run block blockname1 blockname2 blockname3`.

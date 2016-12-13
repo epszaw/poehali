@@ -1,16 +1,5 @@
 @import './variables';
 @import './breakpoints';
-
-.hello {
-  color: $c_red;
-
-  &__memo {
-    background-color: $c_red;
-  }
-
-  @media(--tablet) {
-    & {
-      color: blue
-    }
-  }
-}
+@import './fonts';
+@import './mixins';
+@import './sprites.css';
