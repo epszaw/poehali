@@ -4,3 +4,5 @@ dist.zip
 .idea/
 .eslintcache
 npm-debug.log
+.vscode
+yarn.lock

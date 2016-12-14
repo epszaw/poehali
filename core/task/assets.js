@@ -1,21 +1,19 @@
-const gulp =     require('gulp'),
-    cache =    require('gulp-cached'),
-    imageMin =    require('gulp-imagemin'),
-    fs =          require('fs');
+'use strict';
 
-const settings = JSON.parse(fs.readFileSync('catstruct.json', 'utf-8')).buildSettings.images;
+const gulp = require('gulp'),
+  browserSync = require('browser-sync'),
+  imageMin = require('gulp-imagemin');
 
 gulp.task('move-fonts', () => {
   gulp.src('app/assets/fonts/**/*')
-    .pipe(cache('assets'))
     .pipe(gulp.dest('dist/assets/fonts'))
 });
 
 gulp.task('optimize-images', () => {
-  gulp.src(settings.sourcePath)
-    .pipe(cache('assets'))
+  gulp.src('app/assets/images/**/*')
     .pipe(imageMin())
-    .pipe(gulp.dest(settings.outputPath))
+    .pipe(gulp.dest('dist/assets/images'))
+    .pipe(browserSync.stream());
 });
 
 gulp.task('move-assets', ['move-fonts', 'optimize-images']);
