@@ -2,7 +2,6 @@
 
 const gulp = require('gulp'),
   browserSync = require('browser-sync'),
-  concat = require('gulp-concat'),
   autoprefixer = require('autoprefixer'),
   postCss = require('gulp-postcss'),
   cssVariables = require('postcss-simple-vars'),
@@ -10,6 +9,7 @@ const gulp = require('gulp'),
   cssNested = require('postcss-nested'),
   cssColor = require('postcss-color-function'),
   cssImport = require('postcss-import'),
+  cssEasyImport = require('postcss-easy-import'),
   path = require('path');
 
 gulp.task('css', () => {
@@ -18,7 +18,9 @@ gulp.task('css', () => {
       autoprefixer({
         browsers: ['last 2 version']
       }),
-      cssImport(),
+      cssEasyImport({
+        glob: true
+      }),
       cssBreakpoints(),
       cssVariables(),
       cssNested(),
