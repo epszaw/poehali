@@ -93,21 +93,21 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
   let createdBlocks = [];
 
   newBlocks.forEach((e) => {
-    let pugTemplate = '//- include start\r\n//- include end\r\n\r\nmixin ' + e + '()\r\n  +b.' + e + '&attributes(attributes)\r\n    block',
-      cssTemplate = '.' + e + '{\r\n  display: block;\r\n}',
+    let pugTemplate = `//- include start\r\n//- include end\r\n\r\nmixin ${ e }()\r\n  +b.${ e }&attributes(attributes)\r\n    block`,
+      cssTemplate = `.${ e } {\r\n  display: block;\r\n}`,
       newBlockPath = blocksDir + e;
 
     if (existBlocks.indexOf(e) === -1) {
       fs.mkdir(newBlockPath, (err) => {
         if (err) {
-          console.info(cli.red(e + ' is already exist! Detail: ' + err));
+          console.info(cli.red(`${ e } is already exist! Detail: ${ err }`));
         } else {
-          fs.writeFile(newBlockPath + '/' + e + '.pug', pugTemplate, (err) => {
+          fs.writeFile(`${ newBlockPath }/${ e }.pug`, pugTemplate, (err) => {
             if (err) {
               console.info(cli.red(err));
             }
           });
-          fs.writeFile(newBlockPath + '/' + e + '.css', cssTemplate, (err) => {
+          fs.writeFile(`${ newBlockPath }/${ e }.css`, cssTemplate, (err) => {
             if (err) {
               console.info(cli.red(err));
             }
@@ -148,12 +148,12 @@ function includeNewBlock(extendableObject, createdBlocks) {
           fileIncludes = extendedFile.slice(includeSectionStart, includeSectionEnd - 1);
 
           createdBlocks.map((e) => {
-            let includeTemplate = '\r\ninclude /blocks/' + e + '/' + e;
+            let includeTemplate = `\r\ninclude /blocks/${ e }/${ e }`;
 
             if (fileIncludes.indexOf(e) === -1) {
               fileIncludes += includeTemplate;
             } else {
-              console.error(cli.red(e + ' is already included to ' + extendableObject[key]));
+              console.error(cli.red(`${ e } is already included to ${ extendableObject[key] }`));
             }
           });
 

@@ -4,8 +4,8 @@ html, body {
 }
 
 * {
-  font-family: avante;
-  color: blackColor;
+  font-family: monospace;;
+  color: $c_black;
 }
 
 .vertical-align-helper {
