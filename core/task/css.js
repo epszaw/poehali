@@ -2,6 +2,8 @@
 
 const gulp = require('gulp'),
   browserSync = require('browser-sync'),
+  plumber = require('gulp-plumber'),
+  plumberErrorHandler = require('gulp-plumber-error-handler'),
   autoprefixer = require('autoprefixer'),
   postCss = require('gulp-postcss'),
   cssVariables = require('postcss-simple-vars'),
@@ -14,17 +16,20 @@ const gulp = require('gulp'),
 
 gulp.task('css', () => {
   return gulp.src('app/css/main.css')
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler('Error was occurred during CSS compile')
+    }))
     .pipe(postCss([
-      autoprefixer({
-        browsers: ['last 2 version']
-      }),
       cssEasyImport({
         glob: true
       }),
-      cssBreakpoints(),
-      cssVariables(),
       cssNested(),
-      cssColor()
+      cssBreakpoints(),
+      cssColor(),
+      cssVariables(),
+      autoprefixer({
+        browsers: ['last 2 version']
+      })
     ]))
     .pipe(gulp.dest('dist/assets/css'), {
       overwrite: true
