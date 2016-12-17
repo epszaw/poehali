@@ -10,13 +10,12 @@ const gulp = require('gulp'),
 
 requireDir('core/task');
 
-gulp.task('build', ['css', 'move-assets', 'sprite', 'js', 'pug']);
+gulp.task('build', ['css', 'move-assets', 'js', 'pug']);
 
 gulp.task('watch', () => {
   watch('app/**/*.pug', (e) => runSequence('pug', bs.reload));
   watch('app/**/*.css', (e) => runSequence('css', bs.reload));
   watch(['app/assets/images/**/*', 'app/assets/fonts/**/*'], (e) => runSequence('move-assets', bs.reload));
-  watch('app/assets/sprite/*', () => runSequence('sprite', bs.reload));
 });
 
 gulp.task('browserSync', () => {
