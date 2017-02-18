@@ -6,31 +6,33 @@ const gulp = require('gulp'),
   plumberErrorHandler = require('gulp-plumber-error-handler'),
   autoprefixer = require('autoprefixer'),
   postCss = require('gulp-postcss'),
-  cssVariables = require('postcss-simple-vars'),
-  cssBreakpoints = require('postcss-custom-media'),
-  cssNested = require('postcss-nested'),
-  cssColor = require('postcss-color-function'),
-  cssEasyImport = require('postcss-easy-import'),
-  cssSprites = require('postcss-sprites'),
   cssnano = require('gulp-cssnano'),
+  cssCustomProperties = require('postcss-custom-properties'),
+  cssNested = require('postcss-nested'),
+  cssImportPartials = require('postcss-partial-import'),
+  cssCustomBreakPoints = require('postcss-custom-media'),
+  cssUse = require('postcss-use'),
+  cssExtend = require('postcss-extend'),
+  cssFontMagician = require('postcss-font-magician'),
   path = require('path');
 
 const postcssPlugins = [
-  cssEasyImport({
-    glob: true
+  cssUse({
+    modules: [
+      'postcss-partial-import',
+      'postcss-custom-media',
+      'postcss-font-magician',
+      'postcss-custom-properties',
+      'postcss-nested',
+      'postcss-extend'
+    ]
   }),
+  cssImportPartials(),
+  cssFontMagician(),
+  cssCustomBreakPoints(),
   cssNested(),
-  cssBreakpoints(),
-  cssColor(),
-  cssVariables(),
-  cssSprites({
-    basePath: './app/assets/sprites/',
-    stylesheetPath: 'dist/css',
-    spritePath: 'dist/css/images'
-  }),
-  autoprefixer({
-    browsers: ['last 3 version']
-  })
+  cssExtend(),
+  cssCustomProperties()
 ];
 
 gulp.task('css', () => {
@@ -39,7 +41,7 @@ gulp.task('css', () => {
       errorHandler: plumberErrorHandler('Error was occurred during CSS compile')
     }))
     .pipe(postCss(postcssPlugins))
-    .pipe(cssnano())
+    // .pipe(cssnano())
     .pipe(gulp.dest('dist/assets/css'), {
       overwrite: true
     })

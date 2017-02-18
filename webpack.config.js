@@ -12,7 +12,7 @@ module.exports = {
   watch: env && env === 'dev',
   plugins: [
     new webpack.NoErrorsPlugin()
-  ].concat(env && env === 'dev' ? new webpack.HotModuleReplacementPlugin() : ''),
+  ].concat(env && env === 'dev' ? new webpack.HotModuleReplacementPlugin() : []),
   devtool: env && env === 'dev' ? 'source-map' : null,
   module: {
     loaders: [

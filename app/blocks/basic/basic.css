@@ -1,18 +1,15 @@
 html, body {
   padding: 0;
-  background: #dadada;
+  background-color: var(--gray-color);
+
+  @media(--mobile-viewport) {
+    background-color: red;
+  }
 }
 
 * {
-  font-family: monospace;;
-  color: $c_black;
-}
-
-.vertical-align-helper {
-  display: inline-block;
-  height: 100%;
-  width: 0;
-  vertical-align: middle;
+  font-family: monospace;
+  color: #000;
 }
 
 h1 {
@@ -21,4 +18,12 @@ h1 {
 
 p {
   font-size: 16px;
+}
+
+.test {
+  &__test {
+    p {
+      color: red;
+    }
+  }
 }

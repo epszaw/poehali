@@ -1,6 +1,2 @@
-@import './variables';
-@import './breakpoints';
-@import './fonts';
-@import './mixins';
-@import './sprites.css';
+@import './root';
 @import './../blocks/**/*.css';
