@@ -24,12 +24,8 @@ npm run block blockname1 blockname2 blockname3
 |   |   ├──images/
 |   |   └──sprites/ - sprites dir
 |   ├──css/
-|   |   ├──fonts.css
-|   |   ├──main.css
-|   |   ├──mixins.css
-|   |   ├──breakpoints.css
-|   |   ├──variables.css
-|   |   └──sprite.css - spritesmith file
+|   |   ├──root.css
+|   |   └──main.css
 |   ├──layouts/
 |   ├──blocks/
 |   ├──data/ - json-data files
