@@ -7,16 +7,10 @@ const gulp = require('gulp'),
   autoprefixer = require('autoprefixer'),
   postCss = require('gulp-postcss'),
   cssnano = require('gulp-cssnano'),
-  cssCustomProperties = require('postcss-custom-properties'),
-  cssNested = require('postcss-nested'),
-  cssImportPartials = require('postcss-partial-import'),
-  cssCustomBreakPoints = require('postcss-custom-media'),
   cssUse = require('postcss-use'),
-  cssExtend = require('postcss-extend'),
-  cssFontMagician = require('postcss-font-magician'),
   path = require('path');
 
-const postcssPlugins = [
+let postcssPlugins = [
   cssUse({
     modules: [
       'postcss-partial-import',
@@ -26,13 +20,7 @@ const postcssPlugins = [
       'postcss-nested',
       'postcss-extend'
     ]
-  }),
-  cssImportPartials(),
-  cssFontMagician(),
-  cssCustomBreakPoints(),
-  cssNested(),
-  cssExtend(),
-  cssCustomProperties()
+  })
 ];
 
 gulp.task('css', () => {

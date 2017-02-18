@@ -1,5 +1,5 @@
 {
-  "name": "catstruct",
+  "name": "frontend-rocket-site",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "author": "lamartire",
   "license": "MIT",
-  "repository": "https://github.com/lamartire/catstruct",
+  "repository": "https://github.com/lamartire/frontend-rocket-site",
   "devDependencies": {
     "autoprefixer": "^6.5.4",
     "babel-core": "^6.17.0",

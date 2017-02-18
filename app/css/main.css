@@ -1,2 +1,7 @@
+@use postcss-partial-import;
+@use postcss-custom-media;
+@use postcss-custom-properties;
+@use postcss-nested;
+
 @import './root';
 @import './../blocks/**/*.css';
