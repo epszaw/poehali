@@ -29,9 +29,6 @@ npm run block blockname1 blockname2 blockname3
 |   ├──layouts/
 |   ├──blocks/
 |   ├──data/ - json-data files
-|   ├──helpers/
-|   |   └──pug/
-|   |       └──bemto/ - BEM for pug
 |   ├──app.js - main script
 |   └──pages/
 └──core/
