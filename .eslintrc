@@ -9,8 +9,27 @@
   "ignore-path": ["node_modules", "dist"],
   "rules": {
     "semi": ["error", "always"],
+    "vars-on-top": "error",
     "quotes": ["error", "single"],
-    "indent": ["error", 2]
+    "indent": ["error", 2, {
+      "VariableDeclarator": 2
+    }],
+    "no-dupe-keys": "error",
+    "no-empty": "error",
+    "valid-jsdoc": "error",
+    "valid-typeof": "error",
+    "curly": "error",
+    "no-this-before-super": "error",
+    "no-const-assign": "error",
+    "no-var": "error",
+    "generator-star-spacing": ["error", { "before": true }],
+    "prefer-arrow-callback": "error",
+    "arrow-parens": ["error", "as-needed"],
+    "arrow-body-style": "error",
+    "object-shorthand": "error",
+    "arrow-spacing": "error",
+    "prefer-template": "error",
+    "template-curly-spacing": ["error", "always"]
   },
   "parserOptions": {
     "ecmaVersion": 6,
