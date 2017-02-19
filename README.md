@@ -21,8 +21,7 @@ npm run block blockname1 blockname2 blockname3
 ├──app/
 |   ├──assets/
 |   |   ├──fonts/
-|   |   ├──images/
-|   |   └──sprites/ - sprites dir
+|   |   └──images/
 |   ├──css/
 |   |   ├──root.css
 |   |   └──main.css
