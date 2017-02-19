@@ -12,6 +12,8 @@ requireDir('core/task');
 
 gulp.task('build', ['minify-css', 'move-assets', 'js', 'pug']);
 
+gulp.task('start', ['css', 'move-assets', 'js', 'pug']);
+
 gulp.task('watch', () => {
   watch('app/**/*.pug', (e) => runSequence('pug', bs.reload));
   watch('app/**/*.css', (e) => runSequence('css', bs.reload));
@@ -28,4 +30,4 @@ gulp.task('browserSync', () => {
   });
 });
 
-gulp.task('default', ['browserSync', 'build', 'watch']);
+gulp.task('default', ['browserSync', 'start', 'watch']);

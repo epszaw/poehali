@@ -1,5 +1,4 @@
 /node_modules
 /dist
-/core
 gulpfile.js
 webpack.config.js

@@ -1,24 +1,19 @@
 'use strict';
 
 const fs =  require('fs'),
-  cli = require('cli-color'),
-  path = require('path');
-
-/**
- * Variables
- */
+      cli = require('cli-color');
 
 const blocksDir = 'app/blocks/',
-  layoutsDir = 'app/layouts/',
-  pagesDir = 'app/pages/',
-  args = process.argv,
-  parsedArgs = getArgsFromCommandLine(args),
-  extendableContent = parsedArgs.ext,
-  newBlocks = parsedArgs.blocks,
-  existBlocks = searchExistingBlocks(blocksDir, newBlocks);
+      layoutsDir = 'app/layouts/',
+      pagesDir = 'app/pages/',
+      rawArgs = process.argv,
+      parsedArgs = getArgsFromCommandLine(rawArgs),
+      extendableContent = parsedArgs.ext,
+      newBlocks = parsedArgs.blocks,
+      existBlocks = searchExistingBlocks(blocksDir, newBlocks);
 
 if (newBlocks.length === 0) {
-  console.error(cli.red('Here are not new blocks!'))
+  console.error(cli.red('Here are not new blocks!'));
 } else {
   createBlocks(newBlocks, existBlocks, extendableContent);
 }
@@ -51,7 +46,7 @@ function getArgsFromCommandLine(args) {
         }
       }
     }
-  })
+  });
 
   return argsList;
 }
@@ -62,19 +57,19 @@ function getArgsFromCommandLine(args) {
  * @returns existBlocks Array
  */
 
-function searchExistingBlocks(dir, newBlocks) {
-  let existBlocks = [],
-    dirContent = fs.readdirSync(dir, 'utf-8');
+function searchExistingBlocks(dir, blocksNames) {
+  let existingBlocks = [],
+      dirContent = fs.readdirSync(dir, 'utf-8');
 
-  for (let i = 0; i < newBlocks.length; i++) {
+  for (let i = 0; i < blocksNames.length; i++) {
     for (let j = 0; j < dirContent.length; j++) {
-      if (newBlocks[i] === dirContent[j]) {
-        existBlocks.push(newBlocks[i]);
+      if (blocksNames[i] === dirContent[j]) {
+        existingBlocks.push(blocksNames[i]);
       }
     }
   }
 
-  return existBlocks;
+  return existingBlocks;
 }
 
 /**
@@ -83,7 +78,7 @@ function searchExistingBlocks(dir, newBlocks) {
  * @param extendableObject Object
  */
 
-function createBlocks(newBlocks, existBlocks, extendableObject) {
+function createBlocks(newBlocksNames, existBlocksNames, extendableObject) {
   const extendable = {
     block: extendableObject.block || null,
     layout: extendableObject.layout || null,
@@ -92,26 +87,18 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 
   let createdBlocks = [];
 
-  newBlocks.forEach((e) => {
+  newBlocksNames.forEach((e) => {
     let pugTemplate = `//- include start\r\n//- include end\r\n\r\nmixin ${ e }()\r\n  +b.${ e }&attributes(attributes)\r\n    block`,
-      cssTemplate = `.${ e } {\r\n  display: block;\r\n}`,
-      newBlockPath = blocksDir + e;
+        cssTemplate = `.${ e } {\r\n  display: block;\r\n}`,
+        newBlockPath = blocksDir + e;
 
-    if (existBlocks.indexOf(e) === -1) {
+    if (existBlocksNames.indexOf(e) === -1) {
       fs.mkdir(newBlockPath, (err) => {
         if (err) {
           console.info(cli.red(`${ e } is already exist! Detail: ${ err }`));
         } else {
-          fs.writeFile(`${ newBlockPath }/${ e }.pug`, pugTemplate, (err) => {
-            if (err) {
-              console.info(cli.red(err));
-            }
-          });
-          fs.writeFile(`${ newBlockPath }/${ e }.css`, cssTemplate, (err) => {
-            if (err) {
-              console.info(cli.red(err));
-            }
-          });
+          fs.writeFile(`${ newBlockPath }/${ e }.pug`, pugTemplate);
+          fs.writeFile(`${ newBlockPath }/${ e }.css`, cssTemplate);
         }
       });
 
@@ -121,7 +108,7 @@ function createBlocks(newBlocks, existBlocks, extendableObject) {
 
   includeNewBlock(extendable, createdBlocks);
 
-  console.info(cli.green('Blocks: ' + createdBlocks.join(', ') + ' successfully create!'));
+  console.info(cli.green(`Blocks: ${ createdBlocks.join(', ') }  successfully create!`));
 }
 
 /**
@@ -136,12 +123,12 @@ function includeNewBlock(extendableObject, createdBlocks) {
 
       if (extendedFile != undefined) {
         let includeSectionStart = extendedFile.indexOf('//- include start'),
-          includeSectionEnd = extendedFile.indexOf('//- include end'),
-          fileIncludes = '',
-          fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
+            includeSectionEnd = extendedFile.indexOf('//- include end'),
+            fileIncludes = '',
+            fileContent = extendedFile.slice(includeSectionEnd + '//- include end'.length);
 
         if (includeSectionStart === -1) {
-          console.error(cli.red('Including to ' + extendableObject[key] + ' is not possible. Define "include section" and try again'));
+          console.error(cli.red(`Including to ${ extendableObject[key] } is not possible. Define "include section" and try again`));
 
           return false;
         } else {
@@ -163,11 +150,11 @@ function includeNewBlock(extendableObject, createdBlocks) {
             if (err) {
               console.error(cli.red(err));
             }
-          })
+          });
         }
       }
     }
-  })
+  });
 }
 
 /**
@@ -180,23 +167,21 @@ function getExtendedFilePath(fileType, fileName) {
   let fileData = {
     path: '',
     fullPath: '',
-    fileName: fileName
+    fileName
   };
 
   switch (fileType) {
     case 'block':
       fileData.path = blocksDir + fileName;
-      fileData.fullPath = blocksDir + fileName + '/' + fileName + '.pug';
+      fileData.fullPath = `${ blocksDir }${ fileName }/${ fileName }.pug`;
       break;
-
     case 'layout':
       fileData.path = layoutsDir;
-      fileData.fullPath = layoutsDir + fileName + '.pug';
+      fileData.fullPath = `${ layoutsDir }${ fileName }.pug`;
       break;
-
     case 'page':
       fileData.path = pagesDir;
-      fileData.fullPath = pagesDir + fileName + '.pug';
+      fileData.fullPath = `${ pagesDir }${ fileName }.pug`;
       break;
   }
 

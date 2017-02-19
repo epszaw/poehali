@@ -1,14 +1,13 @@
 'use strict';
 
 const gulp = require('gulp'),
-  browserSync = require('browser-sync'),
-  plumber = require('gulp-plumber'),
-  plumberErrorHandler = require('gulp-plumber-error-handler'),
-  autoprefixer = require('autoprefixer'),
-  postCss = require('gulp-postcss'),
-  cssnano = require('gulp-cssnano'),
-  cssUse = require('postcss-use'),
-  path = require('path');
+      browserSync = require('browser-sync'),
+      plumber = require('gulp-plumber'),
+      plumberErrorHandler = require('gulp-plumber-error-handler'),
+      autoprefixer = require('autoprefixer'),
+      postCss = require('gulp-postcss'),
+      cssnano = require('gulp-cssnano'),
+      cssUse = require('postcss-use');
 
 let postcssPlugins = [
   cssUse({
@@ -20,7 +19,8 @@ let postcssPlugins = [
       'postcss-nested',
       'postcss-extend'
     ]
-  })
+  }),
+  autoprefixer()
 ];
 
 gulp.task('css', () => {

@@ -1,12 +1,12 @@
 'use strict';
 
 const gulp = require('gulp'),
-  browserSync = require('browser-sync'),
-  imageMin = require('gulp-imagemin');
+      browserSync = require('browser-sync'),
+      imageMin = require('gulp-imagemin');
 
 gulp.task('move-fonts', () => {
   gulp.src('app/assets/fonts/**/*')
-    .pipe(gulp.dest('dist/assets/fonts'))
+    .pipe(gulp.dest('dist/assets/fonts'));
 });
 
 gulp.task('optimize-images', () => {
