@@ -10,7 +10,7 @@ const gulp = require('gulp'),
 
 requireDir('core/task');
 
-gulp.task('build', ['css', 'move-assets', 'js', 'pug']);
+gulp.task('build', ['minify-css', 'move-assets', 'js', 'pug']);
 
 gulp.task('watch', () => {
   watch('app/**/*.pug', (e) => runSequence('pug', bs.reload));

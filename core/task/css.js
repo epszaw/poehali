@@ -29,9 +29,20 @@ gulp.task('css', () => {
       errorHandler: plumberErrorHandler('Error was occurred during CSS compile')
     }))
     .pipe(postCss(postcssPlugins))
-    // .pipe(cssnano())
     .pipe(gulp.dest('dist/assets/css'), {
       overwrite: true
     })
     .pipe(browserSync.stream());
+});
+
+gulp.task('minify-css', () => {
+  return gulp.src('app/css/main.css')
+    .pipe(plumber({
+      errorHandler: plumberErrorHandler('Error was occurred during CSS compile')
+    }))
+    .pipe(postCss(postcssPlugins))
+    .pipe(cssnano())
+    .pipe(gulp.dest('dist/assets/css'), {
+      overwrite: true
+    });
 });
