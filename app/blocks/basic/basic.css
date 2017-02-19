@@ -1,29 +1,4 @@
 html, body {
   padding: 0;
-  background-color: var(--gray-color);
-
-  @media(--mobile-viewport) {
-    background-color: red;
-  }
-}
-
-* {
-  font-family: 'Alice';
-  color: #000;
-}
-
-h1 {
-  font-size: 22px;
-}
-
-p {
-  font-size: 16px;
-}
-
-.test {
-  &__test {
-    p {
-      color: red;
-    }
-  }
+  margin: 0;
 }
