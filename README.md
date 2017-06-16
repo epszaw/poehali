@@ -1,4 +1,6 @@
-# Catstruct
+# Markup without headache
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Commands
 
@@ -9,10 +11,6 @@ npm start
 Build:
 ```
 npm build
-```
-Create block/blocks (create dir with pug/css):
-```
-npm run block blockname1 blockname2 blockname3
 ```
 
 ## Folder structure
@@ -30,27 +28,18 @@ npm run block blockname1 blockname2 blockname3
 |   ├──data/ - json-data files
 |   ├──app.js - main script
 |   └──pages/
-└──core/
-    └─tasks/
-```
-## Blocks inheritance
-
-For multiple blocks creation: `npm run block blockname1 blockname2 blockname3`.
-
-Some arguments:
-
-|**Argument**|**Value**|
-|------------|-------------|
-|EXTB=blockname|Extendable block|
-|EXTL=layoutname|Extendable layout|
-|EXTP=pagename|Extendable page|
-
-For correctly extending, you must create following section in `pug` files:
-
-```
-//- include start
-
-//- include end
+└──tasks/
 ```
 
-**If you create blocks with `block` script, it already has this section**.
+## Linting
+
+I usually use eslint with standard and stylelint with my custom config.
+
+Also, there is pre-commit linting.
+
+## Creating BEM blocks
+
+A little earlier I used js-script in this project, but it was not flexable and
+I created [generator-bem-blocks][1]. It's simple and helpful.
+
+[1]: https://github.com/lamartire/generator-bem-blocks
