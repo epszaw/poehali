@@ -4,4 +4,5 @@
 @use postcss-nested;
 
 @import './root';
-@import './../blocks/**/*.css';
+@import './basic.css';
+@import './../blocks/hello/hello.css';

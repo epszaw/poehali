@@ -5,48 +5,13 @@
     "es6": true,
     "node": true
   },
-  "extends": "eslint:recommended",
+  "extends": "standard",
   "ignore-path": ["node_modules", "dist"],
-  "rules": {
-    "semi": ["error", "always"],
-    "vars-on-top": "error",
-    "quotes": ["error", "single"],
-    "indent": ["error", 2, {
-      "VariableDeclarator": {
-        "var": 2,
-        "let": 2,
-        "const": 3
-      },
-      "SwitchCase": 1
-    }],
-    "no-dupe-keys": "error",
-    "no-empty": "error",
-    "valid-jsdoc": "error",
-    "valid-typeof": "error",
-    "curly": "error",
-    "no-this-before-super": "error",
-    "no-const-assign": "error",
-    "no-var": "error",
-    "generator-star-spacing": ["error", { "before": true }],
-    "prefer-arrow-callback": "error",
-    "arrow-body-style": ["error", "always"],
-    "object-shorthand": "error",
-    "arrow-spacing": "error",
-    "prefer-template": "error",
-    "template-curly-spacing": ["error", "always"],
-    "no-lonely-if": "error",
-    "no-shadow": "error",
-    "no-multiple-empty-lines": ["error"],
-    "eol-last": ["error", "always"],
-    "block-spacing": "error",
-    "no-console": ["error",  {
-      "allow": ["warn", "error", "info"]
-    }]
-  },
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
       "spread": true
-    }
+    },
+    "sourceType": "module"
   }
 }

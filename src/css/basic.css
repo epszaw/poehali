@@ -1,0 +1,7 @@
+@use postcss-property-lookup;
+
+body {
+  background-color: var(--color-grey);
+  padding: 0;
+  margin: @padding;
+}

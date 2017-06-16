@@ -1,9 +1,7 @@
-'use strict';
+const path = require('path')
+const webpack = require('webpack')
 
-const path = require('path'),
-  webpack = require('webpack');
-
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV
 
 module.exports = {
   output: {
@@ -30,7 +28,7 @@ module.exports = {
       }
     ]
   }
-};
+}
 
 if (env === 'prod') {
   module.exports.plugins.push(
@@ -40,5 +38,5 @@ if (env === 'prod') {
       }
     }),
     new webpack.optimize.DedupePlugin()
-  );
+  )
 }

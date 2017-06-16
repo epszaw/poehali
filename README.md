@@ -18,7 +18,7 @@ npm run block blockname1 blockname2 blockname3
 ## Folder structure
 
 ```
-├──app/
+├──src/
 |   ├──assets/
 |   |   ├──fonts/
 |   |   └──images/
