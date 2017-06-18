@@ -1,5 +1,6 @@
 :root {
   --color-grey: #f0f0f0;
+  --gap: 16px;
 }
 
 @custom-media --mobile (max-width: 768px);

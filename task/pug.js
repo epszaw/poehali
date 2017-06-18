@@ -7,6 +7,8 @@ const plumberErrorHandler = require('gulp-plumber-error-handler')
 const filter = require('gulp-filter')
 const rename = require('gulp-rename')
 
+const env = process.env.NODE_ENV || 'dev'
+
 const data = {
   getData: getData('src/data')
 }
@@ -19,7 +21,7 @@ gulp.task('pug', () => {
     .pipe(filter('src/pages/*'))
     .pipe(gulpPug({
       basedir: 'src',
-      pretty: true,
+      pretty: env === 'dev',
       data
     }))
     .pipe(rename({

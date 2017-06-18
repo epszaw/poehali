@@ -7,7 +7,8 @@ module.exports = {
         'postcss-nested',
         'postcss-custom-media',
         'postcss-calc',
-        'postcss-property-lookup'
+        'postcss-property-lookup',
+        'postcss-inline-svg'
       ]
     },
     'postcss-partial-import': {},

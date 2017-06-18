@@ -8,15 +8,15 @@ const bs = browserSync.create()
 
 requireDir('task')
 
-gulp.task('build', ['minify-css', 'move-assets', 'js', 'pug'])
-
-gulp.task('start', ['css', 'move-assets', 'js', 'pug'])
+gulp.task('build', ['move-assets', 'js', 'pug', 'css'])
 
 gulp.task('watch', () => {
   watch('src/**/*.pug', e => runSequence('pug', bs.reload))
   watch('src/**/*.css', e => runSequence('css', bs.reload))
   watch('src/**/*.js', e => runSequence('js', bs.reload))
-  watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], (e) => runSequence('move-assets', bs.reload))
+  watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], 
+    e => runSequence('move-assets', bs.reload)
+  )
 })
 
 gulp.task('browserSync', () => {
@@ -24,9 +24,9 @@ gulp.task('browserSync', () => {
     server: {
       baseDir: path.resolve(__dirname, 'dist/')
     },
-    port: 8080,
+    port: 3000,
     open: false
   })
 })
 
-gulp.task('default', ['browserSync', 'start', 'watch'])
+gulp.task('default', ['browserSync', 'build', 'watch'])
