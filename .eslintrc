@@ -6,7 +6,6 @@
     "node": true
   },
   "extends": "standard",
-  "ignore-path": ["node_modules", "dist"],
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
