@@ -14,19 +14,28 @@ const data = {
 }
 
 gulp.task('pug', () => {
-  return gulp.src('src/**/*.pug')
-    .pipe(plumber({
-      errorHandler: plumberErrorHandler('Error was occurred during PUG compile')
-    }))
+  return gulp
+    .src('src/**/*.pug')
+    .pipe(
+      plumber({
+        errorHandler: plumberErrorHandler(
+          'Error was occurred during PUG compile'
+        )
+      })
+    )
     .pipe(filter('src/pages/*'))
-    .pipe(gulpPug({
-      basedir: 'src',
-      pretty: env === 'dev',
-      data
-    }))
-    .pipe(rename({
-      dirname: '.'
-    }))
+    .pipe(
+      gulpPug({
+        basedir: 'src',
+        pretty: env === 'dev',
+        data
+      })
+    )
+    .pipe(
+      rename({
+        dirname: '.'
+      })
+    )
     .pipe(gulp.dest('dist'))
     .pipe(browserSync.stream())
 })

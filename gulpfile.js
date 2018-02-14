@@ -14,8 +14,8 @@ gulp.task('watch', () => {
   watch('src/**/*.pug', e => runSequence('pug', bs.reload))
   watch('src/**/*.css', e => runSequence('css', bs.reload))
   watch('src/**/*.js', e => runSequence('js', bs.reload))
-  watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], 
-    e => runSequence('move-assets', bs.reload)
+  watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], e =>
+    runSequence('move-assets', bs.reload)
   )
 })
 

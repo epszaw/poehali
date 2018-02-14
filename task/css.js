@@ -10,14 +10,24 @@ const cond = require('gulp-if')
 const env = process.env.NODE_ENV || 'dev'
 
 gulp.task('css', () => {
-  return gulp.src('src/css/main.css')
-    .pipe(plumber({
-      errorHandler: plumberErrorHandler('Error was occurred during CSS compile')
-    }))
+  return gulp
+    .src('src/css/main.css')
+    .pipe(
+      plumber({
+        errorHandler: plumberErrorHandler(
+          'Error was occurred during CSS compile'
+        )
+      })
+    )
     .pipe(postCss())
-    .pipe(cond(env === 'dev', sourcemaps.init({
-      loadMaps: true
-    })))
+    .pipe(
+      cond(
+        env === 'dev',
+        sourcemaps.init({
+          loadMaps: true
+        })
+      )
+    )
     .pipe(cond(env === 'dev', sourcemaps.write()))
     .pipe(cond(env === 'dev', cssnano()))
     .pipe(gulp.dest('dist/assets/css'), {

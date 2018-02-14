@@ -6,8 +6,11 @@
     "node": true
   },
   "extends": "standard",
+  "rules": {
+    "space-before-function-paren": 0
+  },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "ecmaFeatures": {
       "spread": true
     },

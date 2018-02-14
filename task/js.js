@@ -11,7 +11,7 @@ const env = process.env.NODE_ENV || 'dev'
 const bundler = browserify({
   entries: ['src/app.js'],
   debug: env === 'dev'
-});
+})
 
 gulp.task('js', () => {
   return bundle()
@@ -20,7 +20,7 @@ gulp.task('js', () => {
     .pipe(browserSync.stream())
 })
 
-function bundle () {
+function bundle() {
   return bundler
     .transform('babelify', {
       presets: ['es2015']
@@ -28,8 +28,13 @@ function bundle () {
     .bundle()
     .pipe(stream('app.js'))
     .pipe(buffer())
-    .pipe(cond(env === 'dev', sourcemaps.init({
-      loadMaps: true
-    })))
+    .pipe(
+      cond(
+        env === 'dev',
+        sourcemaps.init({
+          loadMaps: true
+        })
+      )
+    )
     .pipe(cond(env === 'dev', sourcemaps.write()))
 }
