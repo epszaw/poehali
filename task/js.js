@@ -7,15 +7,15 @@ const stream = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 const browserify = require('browserify')
 
-const env = process.env.NODE_ENV || 'dev'
+const ENV = process.env.NODE_ENV || 'dev'
 const bundler = browserify({
   entries: ['src/app.js'],
-  debug: env === 'dev'
+  debug: ENV === 'dev'
 })
 
 gulp.task('js', () => {
   return bundle()
-    .pipe(cond(env === 'dev', uglify()))
+    .pipe(cond(ENV === 'dev', uglify()))
     .pipe(gulp.dest('dist/assets/js'))
     .pipe(browserSync.stream())
 })
@@ -30,11 +30,11 @@ function bundle() {
     .pipe(buffer())
     .pipe(
       cond(
-        env === 'dev',
+        ENV === 'dev',
         sourcemaps.init({
           loadMaps: true
         })
       )
     )
-    .pipe(cond(env === 'dev', sourcemaps.write()))
+    .pipe(cond(ENV === 'dev', sourcemaps.write()))
 }

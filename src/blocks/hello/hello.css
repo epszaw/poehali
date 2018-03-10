@@ -1,0 +1,20 @@
+.hello {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5em;
+}
+
+.hello__label {
+  font-family: monospace;
+  font-size: 4em;
+  color: var(--color-purple);
+}
+
+.hello__icon {
+  position: relative;
+  width: 4em;
+  height: 4em;
+  margin-left: 1em;
+  color: var(--color-yellow);
+}

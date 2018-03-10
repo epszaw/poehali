@@ -1,9 +1,5 @@
 :root {
   --color-grey: #f0f0f0;
-  --gap: 16px;
+  --color-purple: #2d1e2f;
+  --color-yellow: #f7b32b;
 }
-
-@custom-media --mobile (max-width: 768px);
-@custom-media --portrait (max-width: 1024px);
-@custom-media --tablet (max-width: 1280px);
-@custom-media --desktop (min-width: 1280px);

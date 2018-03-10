@@ -27,7 +27,7 @@ gulp.task('pug', () => {
     .pipe(
       gulpPug({
         basedir: 'src',
-        pretty: env === 'dev',
+        pretty: env === 'prod',
         data
       })
     )

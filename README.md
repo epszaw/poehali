@@ -1,41 +1,19 @@
-# Markup without headache
+<p align="center">
+  <a href="https://github.com/kirpichikjs/kirpichik" target="_blank">
+    <img width="350"src="https://github.com/lamartire/poehali/blob/master/logo.png?raw=true" />
+  </a>
+</p>
 
-[![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+# Poehali! [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-## Commands
+> Just another boilerplate for static web-sites
 
-Start with watching:
-```
-npm start
-```
-Build:
-```
-npm build
-```
+## Under the hood
 
-## Folder structure
-
-```
-├──src/
-|   ├──assets/
-|   |   ├──fonts/
-|   |   └──images/
-|   ├──css/
-|   |   ├──root.css
-|   |   └──main.css
-|   ├──layouts/
-|   ├──blocks/
-|   ├──data/ - json-data files
-|   ├──app.js - main script
-|   └──pages/
-└──tasks/
-```
-
-## Linting
-
-I usually use eslint with standard and stylelint with my custom config.
-
-Also, there is pre-commit linting.
+* `pug`
+* `postcss`
+* `browserify`
+* `prettier`
 
 ## Creating BEM blocks
 

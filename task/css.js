@@ -7,7 +7,7 @@ const postCss = require('gulp-postcss')
 const cssnano = require('gulp-cssnano')
 const cond = require('gulp-if')
 
-const env = process.env.NODE_ENV || 'dev'
+const ENV = process.env.NODE_ENV || 'dev'
 
 gulp.task('css', () => {
   return gulp
@@ -22,14 +22,14 @@ gulp.task('css', () => {
     .pipe(postCss())
     .pipe(
       cond(
-        env === 'dev',
+        ENV === 'dev',
         sourcemaps.init({
           loadMaps: true
         })
       )
     )
-    .pipe(cond(env === 'dev', sourcemaps.write()))
-    .pipe(cond(env === 'dev', cssnano()))
+    .pipe(cond(ENV === 'dev', sourcemaps.write()))
+    .pipe(cond(ENV === 'prod', cssnano()))
     .pipe(gulp.dest('dist/assets/css'), {
       overwrite: true
     })

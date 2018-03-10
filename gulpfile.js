@@ -8,12 +8,13 @@ const bs = browserSync.create()
 
 requireDir('task')
 
-gulp.task('build', ['move-assets', 'js', 'pug', 'css'])
+gulp.task('build', ['move-assets', 'js', 'pug', 'css', 'svg'])
 
 gulp.task('watch', () => {
   watch('src/**/*.pug', e => runSequence('pug', bs.reload))
   watch('src/**/*.css', e => runSequence('css', bs.reload))
   watch('src/**/*.js', e => runSequence('js', bs.reload))
+  watch('src/**/*.svg', e => runSequence('svg', bs.reload))
   watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], e =>
     runSequence('move-assets', bs.reload)
   )
