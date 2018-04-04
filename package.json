@@ -7,7 +7,9 @@
     "build": "NODE_ENV=prod node_modules/gulp/bin/gulp.js build",
     "eslint": "node_modules/eslint/bin/eslint.js ./src/**/*.js --cache"
   },
-  "pre-commit": ["eslint"],
+  "pre-commit": [
+    "eslint"
+  ],
   "author": "lamartire",
   "license": "MIT",
   "repository": "https://github.com/lamartire/poehali",
@@ -46,6 +48,7 @@
     "gulp-svgstore": "^6.1.1",
     "gulp-uglify": "^3.0.0",
     "gulp-watch": "^5.0.0",
+    "hygen": "^1.5.7",
     "jade-get-data": "^1.0.1",
     "node-gyp": "^3.6.2",
     "pngjs": "^3.3.2",
