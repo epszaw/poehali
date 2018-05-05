@@ -15,9 +15,9 @@
 * `browserify`
 * `prettier`
 
-## Creating BEM blocks
+## Creating new blocks
 
-A little earlier I used js-script in this project, but it was not flexable and
-I created [generator-bem-blocks][1]. It's simple and helpful.
+A little earlier I used js-script in this project and [generator-bem-blocks][1], but now we have awesome tool called [hygen][2]. Just use it for more productivity during work :heart:
 
 [1]: https://github.com/lamartire/generator-bem-blocks
+[2]: https://www.hygen.io/
