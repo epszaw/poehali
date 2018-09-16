@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# Poehali! [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+# Poehali! [![Build Status](https://travis-ci.org/lamartire/poehali.svg?branch=master)](https://travis-ci.org/lamartire/poehali) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 > Just another boilerplate for static web-sites
 
