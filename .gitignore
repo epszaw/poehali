@@ -5,5 +5,3 @@ dist.zip
 .eslintcache
 npm-debug.log
 .vscode
-yarn.lock
-package-lock.json

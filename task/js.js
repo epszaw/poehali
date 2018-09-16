@@ -23,7 +23,7 @@ gulp.task('js', () => {
 function bundle() {
   return bundler
     .transform('babelify', {
-      presets: ['es2015']
+      presets: ['@babel/env']
     })
     .bundle()
     .pipe(stream('app.js'))
