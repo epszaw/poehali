@@ -92,7 +92,7 @@
     "jest": "^23.6.0",
     "pngjs": "^3.3.2",
     "postcss": "^7.0.2",
-    "postcss-custom-properties": "^7.0.0",
+    "postcss-custom-properties": "^8.0.0",
     "postcss-nested": "^4.1.0",
     "postcss-partial-import": "^4.1.0",
     "pre-commit": "^1.2.2",
