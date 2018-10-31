@@ -7,10 +7,18 @@ const plumberErrorHandler = require('gulp-plumber-error-handler')
 const filter = require('gulp-filter')
 const rename = require('gulp-rename')
 
-const env = process.env.NODE_ENV || 'dev'
+const ENV = process.env.NODE_ENV || 'development'
 
 const data = {
   getData: getData('src/data')
+}
+
+const classFromProp = (key, value) => {
+  if (!value) {
+    return null
+  }
+
+  return typeof value === 'string' ? value : key
 }
 
 gulp.task('pug', () => {
@@ -27,7 +35,17 @@ gulp.task('pug', () => {
     .pipe(
       gulpPug({
         basedir: 'src',
-        pretty: env === 'prod',
+        pretty: ENV === 'production',
+        locals: {
+          cn: props =>
+            Object.keys(props)
+              .reduce((acc, key, i) => {
+                const className = classFromProp(key, props[key])
+
+                return className ? acc.concat(className) : acc
+              }, [])
+              .join(' ')
+        },
         data
       })
     )

@@ -3,5 +3,5 @@ dist/
 dist.zip
 .idea/
 .eslintcache
-npm-debug.log
+*.log
 .vscode

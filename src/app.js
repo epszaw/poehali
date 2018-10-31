@@ -1,3 +1,7 @@
-window.onload = () => {
-  console.log('Hello world from js!')
+import { sayHello } from './blocks/hello'
+
+sayHello('from console')
+
+if (module.hot) {
+  module.hot.accept()
 }

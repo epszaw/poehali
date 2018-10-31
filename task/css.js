@@ -7,10 +7,10 @@ const postCss = require('gulp-postcss')
 const cssnano = require('gulp-cssnano')
 const cond = require('gulp-if')
 
-const ENV = process.env.NODE_ENV || 'dev'
+const ENV = process.env.NODE_ENV || 'development'
 
-gulp.task('css', () => {
-  return gulp
+gulp.task('css', () =>
+  gulp
     .src('src/css/main.css')
     .pipe(
       plumber({
@@ -28,10 +28,13 @@ gulp.task('css', () => {
         })
       )
     )
-    .pipe(cond(ENV === 'dev', sourcemaps.write()))
-    .pipe(cond(ENV === 'prod', cssnano()))
-    .pipe(gulp.dest('dist/assets/css'), {
-      overwrite: true
-    })
+    .pipe(cond(ENV === 'development', sourcemaps.write()))
+    .pipe(cond(ENV === 'production', cssnano()))
+    .pipe(
+      gulp.dest('dist/assets/css'),
+      {
+        overwrite: true
+      }
+    )
     .pipe(browserSync.stream())
-})
+)

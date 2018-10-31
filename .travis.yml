@@ -5,3 +5,4 @@ install:
   - yarn
 script:
   - npm run build
+  - npm t

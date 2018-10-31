@@ -10,14 +10,41 @@
 
 ## Under the hood
 
-* `pug`
-* `postcss`
-* `browserify`
-* `prettier`
+- `pug`
+- `postcss`
+- `webpack`
+- `prettier`
 
 ## Creating new blocks
 
-A little earlier I used js-script in this project and [generator-bem-blocks][1], but now we have awesome tool called [hygen][2]. Just use it for more productivity during work :heart:
+A little earlier I used js-script in this project and [generator-bem-blocks][1], but now we have
+awesome tool called [hygen][2]. Just use it for more productivity during work :heart:
+
+## Using classnames into pug mixins
+
+You can use global pug local `cn`, it works like popular solutions for easy creating class names
+for components. See more details [here][3]. Solution in this repository are little bit different
+than other solutions.
+
+Example:
+
+```jade
+mixin foo(bar, baz)
+  p(class=cn({bar, baz}))
+
++foo(true)
++foo(false, true)
++foo(true, 'hello')
+```
+
+Will be compiled to:
+
+```html
+<p class="bar"></p>
+<p class="baz"></p>
+<p class="bar hello"></p>
+```
 
 [1]: https://github.com/lamartire/generator-bem-blocks
 [2]: https://www.hygen.io/
+[3]: https://gist.github.com/lamartire/5028dab810d514b8c951f9d9528361a4
