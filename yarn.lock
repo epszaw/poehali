@@ -4627,10 +4627,10 @@ husky@^1.1.2:
     run-node "^1.0.0"
     slash "^2.0.0"
 
-hygen@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/hygen/-/hygen-2.0.3.tgz#7976c4c494a145846ee1ffcc4abb2d073e120cbe"
-  integrity sha512-HAn+VAcTFECqHRQfExTDWQMCAtyNJLl6vs25xnOhPSKmxSGOENgVvwM4QGG2b/gBCtzBuQU773WgmtNW+SrIzg==
+hygen@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hygen/-/hygen-3.0.0.tgz#c723d54569a310c486af39e533cb18e48096b16f"
+  integrity sha512-qZrCfGYb8RPN95ea04M/KWzguntrHwKxQDNesTiGKJ1nHHxB20M3NagO7QYwt8ztubESLR0xtamMZCeTMDvibg==
   dependencies:
     chalk "^2.4.1"
     change-case "^3.0.2"
