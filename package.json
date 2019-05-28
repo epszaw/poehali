@@ -94,7 +94,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-cssnano": "^2.1.2",
-    "gulp-filter": "^5.1.0",
+    "gulp-filter": "^6.0.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^5.0.0",
     "gulp-plumber": "^1.2.0",
