@@ -114,7 +114,7 @@
     "lint-staged": "^8.0.4",
     "pngjs": "^3.3.2",
     "postcss": "^7.0.2",
-    "postcss-custom-properties": "^8.0.0",
+    "postcss-custom-properties": "^9.0.0",
     "postcss-nested": "^4.1.0",
     "postcss-partial-import": "^4.1.0",
     "prettier": "^1.11.1",
