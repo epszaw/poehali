@@ -2,16 +2,21 @@ const gulp = require('gulp')
 const browserSync = require('browser-sync')
 const imageMin = require('gulp-imagemin')
 
-gulp.task('move-fonts', () => {
+function fonts(cb) {
   gulp.src('src/assets/fonts/**/*').pipe(gulp.dest('dist/assets/fonts'))
-})
+  cb()
+}
 
-gulp.task('optimize-images', () => {
+function images(cb) {
   gulp
     .src('src/assets/images/**/*')
     .pipe(imageMin())
     .pipe(gulp.dest('dist/assets/images'))
     .pipe(browserSync.stream())
-})
+  cb()
+}
 
-gulp.task('move-assets', ['move-fonts', 'optimize-images'])
+module.exports = {
+  fonts,
+  images,
+}

@@ -6,15 +6,15 @@ const svgMin = require('gulp-svgmin')
 const plumber = require('gulp-plumber')
 const plumberErrorHandler = require('gulp-plumber-error-handler')
 
-gulp.task('svg', () => {
+function svg(cb) {
   gulp
     .src('src/assets/svg/*.svg')
     .pipe(
       plumber({
         errorHandler: plumberErrorHandler(
-          'Error was occurred during SVG compile'
-        )
-      })
+          'Error was occurred during SVG compile',
+        ),
+      }),
     )
     .pipe(
       svgMin(file => {
@@ -24,16 +24,21 @@ gulp.task('svg', () => {
               cleanupIDs: {
                 prefix: `${path.basename(
                   file.relative,
-                  path.extname(file.relative)
+                  path.extname(file.relative),
                 )}-`,
-                minify: true
-              }
-            }
-          ]
+                minify: true,
+              },
+            },
+          ],
         }
-      })
+      }),
     )
     .pipe(svgStore({ inlineSvg: true }))
     .pipe(gulp.dest('dist/assets/svg'))
     .pipe(browserSync.stream())
-})
+  cb()
+}
+
+module.exports = {
+  svg,
+}

@@ -1,47 +1,51 @@
 const gulp = require('gulp')
-const requireDir = require('require-dir')
-const runSequence = require('run-sequence')
 const browserSync = require('browser-sync')
-const path = require('path')
-const watch = require('gulp-watch')
-const webpack = require('webpack')
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackHotMiddleware = require('webpack-hot-middleware')
-const { scripts, webpackConfig } = require('./task/webpack')
 
 const bs = browserSync.create()
-const bundler = webpack(webpackConfig)
 
-requireDir('./task')
+const { serve } = require('./task/serve')
+const { js } = require('./task/js')
+const { pug } = require('./task/pug')
+const { css } = require('./task/css')
+const { svg } = require('./task/svg')
+const { fonts, images } = require('./task/assets')
 
-gulp.task('build', ['move-assets', 'js', 'pug', 'css', 'svg'])
+// Common tasks
+gulp.task('js', js)
+gulp.task('pug', pug)
+gulp.task('css', css)
+gulp.task('svg', svg)
+gulp.task('fonts', fonts)
+gulp.task('images', images)
+gulp.task('serve', serve)
 
-gulp.task('js', scripts)
+// Watch tasks
+gulp.task('watch:js', () =>
+  gulp.watch('src/**/*.js', gulp.series(js, bs.reload)),
+)
+gulp.task('watch:pug', () =>
+  gulp.watch('src/**/*.pug', gulp.series(pug, bs.reload)),
+)
+gulp.task('watch:css', () =>
+  gulp.watch('src/**/*.css', gulp.series(css, bs.reload)),
+)
+gulp.task('watch:svg', () =>
+  gulp.watch('src/**/*.svg', gulp.series(svg, bs.reload)),
+)
+gulp.task('watch:assets', () =>
+  gulp.watch('src/assets/**/*', gulp.series(fonts, images, bs.reload)),
+)
 
-gulp.task('watch', () => {
-  watch('src/**/*.pug', e => runSequence('pug', bs.reload))
-  watch('src/**/*.css', e => runSequence('css', bs.reload))
-  watch('src/**/*.svg', e => runSequence('svg', bs.reload))
-  watch('src/**/*.js', e => bs.reload())
-  watch(['src/assets/images/**/*', 'src/assets/fonts/**/*'], e =>
-    runSequence('move-assets', bs.reload)
-  )
-})
-
-gulp.task('browserSync', () => {
-  browserSync.init({
-    server: {
-      baseDir: path.resolve(__dirname, './dist/')
-    },
-    middleware: [webpackDevMiddleware(bundler, {
-      publicPath: webpackConfig.output.publicPath,
-      stats: {
-        colors: true
-      }
-    }), webpackHotMiddleware(bundler)],
-    port: 3000,
-    open: false
-  })
-})
-
-gulp.task('default', ['browserSync', 'build', 'watch'])
+// Core tasks
+gulp.task(
+  'watch',
+  gulp.parallel(
+    'watch:js',
+    'watch:pug',
+    'watch:css',
+    'watch:svg',
+    'watch:assets',
+  ),
+)
+gulp.task('build', gulp.series('fonts', 'images', 'js', 'pug', 'css', 'svg'))
+gulp.task('default', gulp.series('build', gulp.parallel('serve', 'watch')))

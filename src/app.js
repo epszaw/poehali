@@ -1,7 +1,7 @@
+import { polyfillSvg } from './blocks/icon'
 import { sayHello } from './blocks/hello'
 
-sayHello('from console')
-
-if (module.hot) {
-  module.hot.accept()
+window.onload = () => {
+  polyfillSvg()
+  sayHello('from console')
 }
