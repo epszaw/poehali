@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - v10
 install:
-  - yarn
+  - npm i
 script:
   - npm run build
   - npm t
