@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "description": "Just another frontend starter :rocket:",
   "scripts": {
+    "start": "NODE_ENV=development gulp",
+    "build": "rimraf dist && NODE_ENV=production gulp build",
+    "test": "NODE_ENV=test ava",
     "commit": "git-cz",
     "lint": "eslint 'src/**/*.{js,jsx,json}'",
     "lint-staged": "lint-staged"
@@ -32,9 +35,15 @@
       [
         "@babel/preset-env",
         {
+          "corejs": "3.1.4",
           "useBuiltIns": "usage"
         }
       ]
+    ]
+  },
+  "ava": {
+    "require": [
+      "esm"
     ]
   },
   "postcss": {
@@ -52,19 +61,12 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "jest": {
-    "testURL": "http://localhost/",
-    "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/src/$1"
-    }
-  },
   "eslintConfig": {
     "parser": "babel-eslint",
     "env": {
       "browser": true,
       "es6": true,
-      "node": true,
-      "jest": true
+      "node": true
     },
     "extends": [
       "standard",
@@ -102,9 +104,8 @@
     "@commitlint/cli": "^7.6.1",
     "@commitlint/config-conventional": "^7.6.0",
     "autoprefixer": "^9.6.1",
-    "babel-core": "7.0.0-bridge.0",
+    "ava": "^2.2.0",
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "bemto.pug": "^2.1.0",
     "browser-sync": "^2.26.7",
@@ -138,9 +139,7 @@
     "husky": "^2.2.0",
     "hygen": "^4.0.7",
     "jade-get-data": "^1.0.1",
-    "jest": "^24.8.0",
     "lint-staged": "^8.1.6",
-    "pngjs": "^3.4.0",
     "postcss": "^7.0.17",
     "postcss-custom-properties": "^9.0.2",
     "postcss-nested": "^4.1.2",
@@ -148,9 +147,11 @@
     "prettier": "^1.17.1",
     "rimraf": "^2.6.3",
     "sharec-essential-config": "^2.5.0-beta",
+    "sinon": "^7.3.2",
     "webpack": "^4.36.1"
   },
   "dependencies": {
+    "core-js": "^3.1.4",
     "svg4everybody": "^2.1.9"
   },
   "config": {
