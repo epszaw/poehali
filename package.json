@@ -136,7 +136,7 @@
     "gulp-svgstore": "^7.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
-    "husky": "^2.2.0",
+    "husky": "^3.0.2",
     "hygen": "^4.0.7",
     "jade-get-data": "^1.0.1",
     "lint-staged": "^8.1.6",
