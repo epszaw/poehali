@@ -1,5 +1,5 @@
 const path = require('path')
-const browserSync = require('browser-sync')
+const browserSync = require('browser-sync').create()
 
 function serve(cb) {
   browserSync.init({
@@ -12,6 +12,12 @@ function serve(cb) {
   cb()
 }
 
+function reload(cb) {
+  browserSync.reload()
+  cb()
+}
+
 module.exports = {
   serve,
+  reload,
 }

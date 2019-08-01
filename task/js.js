@@ -47,8 +47,6 @@ function js(cb) {
         console.info(stats.toString())
       }
 
-      browserSync.reload()
-
       return resolve()
     }),
   )

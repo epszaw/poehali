@@ -1,9 +1,5 @@
 const gulp = require('gulp')
-const browserSync = require('browser-sync')
-
-const bs = browserSync.create()
-
-const { serve } = require('./task/serve')
+const { serve, reload } = require('./task/serve')
 const { js } = require('./task/js')
 const { pug } = require('./task/pug')
 const { css } = require('./task/css')
@@ -20,20 +16,18 @@ gulp.task('images', images)
 gulp.task('serve', serve)
 
 // Watch tasks
-gulp.task('watch:js', () =>
-  gulp.watch('src/**/*.js', gulp.series(js, bs.reload)),
-)
+gulp.task('watch:js', () => gulp.watch('src/**/*.js', gulp.series(js, reload)))
 gulp.task('watch:pug', () =>
-  gulp.watch('src/**/*.pug', gulp.series(pug, bs.reload)),
+  gulp.watch('src/**/*.pug', gulp.series(pug, reload)),
 )
 gulp.task('watch:css', () =>
-  gulp.watch('src/**/*.css', gulp.series(css, bs.reload)),
+  gulp.watch('src/**/*.css', gulp.series(css, reload)),
 )
 gulp.task('watch:svg', () =>
-  gulp.watch('src/**/*.svg', gulp.series(svg, bs.reload)),
+  gulp.watch('src/**/*.svg', gulp.series(svg, reload)),
 )
 gulp.task('watch:assets', () =>
-  gulp.watch('src/assets/**/*', gulp.series(fonts, images, bs.reload)),
+  gulp.watch('src/assets/**/*', gulp.series(fonts, reload)),
 )
 
 // Core tasks
