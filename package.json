@@ -145,7 +145,7 @@
     "postcss-nested": "^4.1.2",
     "postcss-partial-import": "^4.1.0",
     "prettier": "^1.17.1",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.0",
     "sharec-essential-config": "^2.5.0-beta",
     "sinon": "^7.3.2",
     "webpack": "^4.36.1"
