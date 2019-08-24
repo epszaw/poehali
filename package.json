@@ -1,6 +1,6 @@
 {
   "name": "poehali",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Just another frontend starter :rocket:",
   "scripts": {
     "start": "NODE_ENV=development gulp",
